@@ -22,6 +22,13 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Routes
+const authRoutes = require('./routes/authRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/complaints', complaintRoutes);
+
 // Health & Status check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
