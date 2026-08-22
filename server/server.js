@@ -25,9 +25,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
+const schemeRoutes = require('./routes/schemeRoutes');
+const hallRoutes = require('./routes/hallRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
+app.use('/api/schemes', schemeRoutes);
+app.use('/api/hall-bookings', hallRoutes);
 
 // Health & Status check endpoint
 app.get('/api/health', (req, res) => {
