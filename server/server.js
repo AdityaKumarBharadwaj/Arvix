@@ -27,11 +27,19 @@ const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const schemeRoutes = require('./routes/schemeRoutes');
 const hallRoutes = require('./routes/hallRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
+const scheduleRoutes = require('./routes/scheduleRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/schemes', schemeRoutes);
 app.use('/api/hall-bookings', hallRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/schedules', scheduleRoutes);
+
+// Auto-seed in-memory store and database with initial rich sample data
+const { seedInitialData } = require('./seeds/seedData');
+seedInitialData();
 
 // Health & Status check endpoint
 app.get('/api/health', (req, res) => {
