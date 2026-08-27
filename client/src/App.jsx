@@ -5,6 +5,7 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
 import ComplaintsPage from './pages/ComplaintsPage';
+import SchemesPage from './pages/SchemesPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/complaints" element={<ComplaintsPage />} />
           <Route path="/complaints/track" element={<ComplaintsPage />} />
+          <Route path="/schemes" element={<SchemesPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
