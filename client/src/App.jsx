@@ -6,6 +6,8 @@ import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
 import ComplaintsPage from './pages/ComplaintsPage';
 import SchemesPage from './pages/SchemesPage';
+import HallBookingPage from './pages/HallBookingPage';
+import MedicineAndRationPage from './pages/MedicineAndRationPage';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/complaints" element={<ComplaintsPage />} />
           <Route path="/complaints/track" element={<ComplaintsPage />} />
           <Route path="/schemes" element={<SchemesPage />} />
+          <Route path="/hall-booking" element={<HallBookingPage />} />
+          <Route path="/medicine-and-ration" element={<MedicineAndRationPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
