@@ -10,6 +10,12 @@ const connectDB = async () => {
     });
     isConnected = true;
     console.log(`[Database] MongoDB Connected: ${conn.connection.host}`);
+    try {
+      const { seedInitialData } = require('../seeds/seedData');
+      await seedInitialData();
+    } catch (err) {
+      console.warn('[Seed]', err.message);
+    }
   } catch (error) {
     isConnected = false;
     console.warn(`[Database] MongoDB connection note: ${error.message}`);
