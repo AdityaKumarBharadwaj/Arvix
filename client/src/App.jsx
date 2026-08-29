@@ -8,6 +8,8 @@ import ComplaintsPage from './pages/ComplaintsPage';
 import SchemesPage from './pages/SchemesPage';
 import HallBookingPage from './pages/HallBookingPage';
 import MedicineAndRationPage from './pages/MedicineAndRationPage';
+import LoginPage from './pages/LoginPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/schemes" element={<SchemesPage />} />
           <Route path="/hall-booking" element={<HallBookingPage />} />
           <Route path="/medicine-and-ration" element={<MedicineAndRationPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>

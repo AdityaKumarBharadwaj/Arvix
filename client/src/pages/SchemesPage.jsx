@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { schemeService } from '../../services/api';
+import { schemeService } from '../services/api';
 import SchemeDetailModal from '../components/schemes/SchemeDetailModal';
 import {
   Search,

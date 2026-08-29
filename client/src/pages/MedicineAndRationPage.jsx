@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { scheduleService } from '../../services/api';
+import { scheduleService } from '../services/api';
 import {
   Pill,
   ShoppingBag,
