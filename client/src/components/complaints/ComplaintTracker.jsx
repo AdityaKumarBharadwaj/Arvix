@@ -7,13 +7,11 @@ import {
   AlertCircle,
   XCircle,
   MapPin,
-  Calendar,
   Building,
-  User,
-  ShieldAlert,
-  ArrowRight
+  ShieldAlert
 } from 'lucide-react';
 import { complaintService } from '../../services/api';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ComplaintTracker = () => {
   const [searchParams] = useSearchParams();
@@ -21,6 +19,7 @@ const ComplaintTracker = () => {
   const [loading, setLoading] = useState(false);
   const [complaint, setComplaint] = useState(null);
   const [error, setError] = useState('');
+  const { language, t } = useLanguage();
 
   const executeTrack = async (idToSearch) => {
     if (!idToSearch) return;
@@ -33,10 +32,10 @@ const ComplaintTracker = () => {
       if (res.success && res.complaint) {
         setComplaint(res.complaint);
       } else {
-        setError('No record found for this tracking ID.');
+        setError(language === 'hi' ? 'इस संदर्भ संख्या के लिए कोई शिकायत नहीं मिली।' : 'No record found for this tracking ID.');
       }
     } catch (err) {
-      setError(err.message || 'No grievance record found with this reference number.');
+      setError(err.message || (language === 'hi' ? 'इस संदर्भ संख्या के लिए कोई शिकायत नहीं मिली।' : 'No grievance record found with this reference number.'));
     } finally {
       setLoading(false);
     }
@@ -67,10 +66,22 @@ const ComplaintTracker = () => {
   };
 
   const stages = [
-    { title: 'Submitted', desc: 'Registered on Portal' },
-    { title: 'Under Review', desc: 'Ward Officer Review' },
-    { title: 'In Progress', desc: 'Work-Order Dispatched' },
-    { title: 'Completed', desc: 'Resolved & Closed' },
+    {
+      title: language === 'hi' ? 'प्राप्त (दर्ज)' : 'Submitted',
+      desc: language === 'hi' ? 'पोर्टल पर पंजीकृत' : 'Registered on Portal'
+    },
+    {
+      title: language === 'hi' ? 'समीक्षाधीन' : 'Under Review',
+      desc: language === 'hi' ? 'वार्ड अधिकारी द्वारा जांच' : 'Ward Officer Review'
+    },
+    {
+      title: language === 'hi' ? 'प्रगति पर' : 'In Progress',
+      desc: language === 'hi' ? 'कार्य-आदेश जारी' : 'Work-Order Dispatched'
+    },
+    {
+      title: language === 'hi' ? 'निस्तारित' : 'Completed',
+      desc: language === 'hi' ? 'समस्या का समाधान पूर्ण' : 'Resolved & Closed'
+    },
   ];
 
   const currentStep = complaint ? getStatusStepIndex(complaint.status) : 0;
@@ -81,10 +92,12 @@ const ComplaintTracker = () => {
       {/* Search Input Card */}
       <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
         <h2 className="text-base font-bold text-slate-900 font-sans mb-1">
-          Track Grievance Status
+          {language === 'hi' ? 'शिकायत की स्थिति ट्रैक करें' : 'Track Grievance Status'}
         </h2>
         <p className="text-xs text-slate-500 mb-4">
-          Enter your Tracking Reference ID (e.g., <span className="font-mono font-bold text-slate-800">ARV-2024-1042</span>) or 10-digit registered mobile number.
+          {language === 'hi'
+            ? 'अपनी ट्रैकिंग आईडी (जैसे ARV-2024-1042) या पंजीकृत 10-अंकों का मोबाइल नंबर दर्ज करें।'
+            : 'Enter your Tracking Reference ID (e.g. ARV-2024-1042) or 10-digit registered mobile number.'}
         </p>
 
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2 max-w-xl">
@@ -104,7 +117,9 @@ const ComplaintTracker = () => {
             disabled={loading}
             className="civic-btn-primary text-xs px-5 py-2.5 font-semibold shrink-0"
           >
-            {loading ? 'Searching Record...' : 'Track Grievance'}
+            {loading
+              ? (language === 'hi' ? 'खोज जारी है...' : 'Searching Record...')
+              : (language === 'hi' ? 'स्थिति जांचें' : 'Track Grievance')}
           </button>
         </form>
 
@@ -138,7 +153,7 @@ const ComplaintTracker = () => {
                       : 'bg-slate-100 text-slate-700 border-slate-300'
                   }`}
                 >
-                  Priority: {complaint.priority}
+                  {language === 'hi' ? 'प्राथमिकता:' : 'Priority:'} {complaint.priority}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-slate-900 mt-2 font-sans">
@@ -146,7 +161,7 @@ const ComplaintTracker = () => {
               </h3>
               <p className="text-xs text-slate-500 mt-1 flex items-center">
                 <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                {complaint.landmark} (Ward {complaint.wardNumber || 14})
+                {complaint.landmark} ({language === 'hi' ? 'वार्ड संख्या' : 'Ward'} {complaint.wardNumber || 14})
               </p>
             </div>
 
@@ -170,7 +185,7 @@ const ComplaintTracker = () => {
                 {complaint.status === 'In Progress' && <Clock className="w-4 h-4 mr-1.5 text-blue-600" />}
                 {complaint.status === 'Under Review' && <Clock className="w-4 h-4 mr-1.5 text-amber-600" />}
                 {complaint.status === 'Submitted' && <Clock className="w-4 h-4 mr-1.5 text-slate-600" />}
-                STATUS: {complaint.status.toUpperCase()}
+                {language === 'hi' ? 'वर्तमान स्थिति:' : 'STATUS:'} {complaint.status.toUpperCase()}
               </span>
             </div>
           </div>
@@ -179,7 +194,7 @@ const ComplaintTracker = () => {
           {!isRejected ? (
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-                Redressal Progress Milestones
+                {language === 'hi' ? 'निवारण प्रगति मील के पत्थर' : 'Redressal Progress Milestones'}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
                 {stages.map((stage, idx) => {
@@ -222,10 +237,10 @@ const ComplaintTracker = () => {
             <div className="p-4 bg-rose-50 border border-rose-200 rounded-md space-y-1">
               <div className="flex items-center space-x-2 text-rose-800 font-bold text-sm">
                 <ShieldAlert className="w-4 h-4 text-rose-600" />
-                <span>Grievance Rejected by Ward Authority</span>
+                <span>{language === 'hi' ? 'वार्ड प्रशासन द्वारा शिकायत अस्वीकृत' : 'Grievance Rejected by Ward Authority'}</span>
               </div>
               <p className="text-xs text-rose-700">
-                Reason / Remark: {complaint.adminRemark || 'Outside municipal ward boundary or duplicate complaint.'}
+                {language === 'hi' ? 'कारण / टिप्पणी:' : 'Reason / Remark:'} {complaint.adminRemark || 'Outside municipal ward boundary.'}
               </p>
             </div>
           )}
@@ -234,40 +249,42 @@ const ComplaintTracker = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 border border-slate-200 p-4 rounded-lg text-xs">
             <div className="space-y-2">
               <div className="font-bold text-slate-800 uppercase tracking-wider font-mono text-[11px]">
-                Citizen Submission Summary
+                {language === 'hi' ? 'नागरिक द्वारा दर्ज शिकायत सारांश' : 'Citizen Submission Summary'}
               </div>
               <p className="text-slate-700 leading-relaxed">{complaint.description}</p>
               <div className="pt-2 text-[11px] text-slate-500 space-y-1">
                 <div>
-                  <strong className="text-slate-700">Lodge Date:</strong>{' '}
-                  {new Date(complaint.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+                  <strong className="text-slate-700">{language === 'hi' ? 'पंजीकरण दिनांक:' : 'Lodge Date:'}</strong>{' '}
+                  {new Date(complaint.createdAt).toLocaleString(language === 'hi' ? 'hi-IN' : 'en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
                 </div>
                 <div>
-                  <strong className="text-slate-700">Complainant:</strong> {complaint.citizenName} (Phone: {complaint.citizenPhone})
+                  <strong className="text-slate-700">{language === 'hi' ? 'शिकायतकर्ता:' : 'Complainant:'}</strong> {complaint.citizenName} ({complaint.citizenPhone})
                 </div>
               </div>
             </div>
 
             <div className="space-y-2 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-4">
               <div className="font-bold text-slate-800 uppercase tracking-wider font-mono text-[11px]">
-                Administrative Assignment
+                {language === 'hi' ? 'प्रशासनिक आवंटन एवं टिप्पणी' : 'Administrative Assignment'}
               </div>
               <div className="space-y-1.5 text-slate-700">
                 <div className="flex items-center space-x-1.5">
                   <Building className="w-3.5 h-3.5 text-slate-400" />
                   <span>
-                    <strong>Department:</strong> {complaint.assignedDepartment || 'Ward Public Works'}
+                    <strong>{language === 'hi' ? 'विभाग:' : 'Department:'}</strong> {complaint.assignedDepartment || 'Ward Public Works'}
                   </span>
                 </div>
                 {complaint.adminRemark && (
                   <div className="p-2.5 bg-white border border-slate-200 rounded text-slate-800">
-                    <span className="font-bold text-slate-900 block mb-0.5">Official Ward Note:</span>
+                    <span className="font-bold text-slate-900 block mb-0.5">
+                      {language === 'hi' ? 'वार्ड कार्यालय आधिकारिक टिप्पणी:' : 'Official Ward Note:'}
+                    </span>
                     {complaint.adminRemark}
                   </div>
                 )}
                 {complaint.resolvedAt && (
                   <div className="text-emerald-700 font-semibold">
-                    ✓ Resolved on {new Date(complaint.resolvedAt).toLocaleDateString('en-IN')}
+                    ✓ {language === 'hi' ? 'समस्या का समाधान दिनांक' : 'Resolved on'} {new Date(complaint.resolvedAt).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-IN')}
                   </div>
                 )}
               </div>
@@ -278,7 +295,7 @@ const ComplaintTracker = () => {
           {complaint.statusHistory && complaint.statusHistory.length > 0 && (
             <div className="space-y-3">
               <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-                Official Redressal Audit Trail
+                {language === 'hi' ? 'आधिकारिक निवारण ऑडिट ट्रेल (इतिहास)' : 'Official Redressal Audit Trail'}
               </h4>
               <div className="border border-slate-200 rounded-md divide-y divide-slate-100 overflow-hidden">
                 {complaint.statusHistory.map((entry, index) => (
@@ -286,12 +303,14 @@ const ComplaintTracker = () => {
                     <div className="space-y-0.5">
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-slate-900">{entry.status}</span>
-                        <span className="text-[10px] text-slate-500">by {entry.updatedBy}</span>
+                        <span className="text-[10px] text-slate-500">
+                          {language === 'hi' ? 'द्वारा' : 'by'} {entry.updatedBy}
+                        </span>
                       </div>
                       <p className="text-slate-600">{entry.note}</p>
                     </div>
                     <span className="font-mono text-[11px] text-slate-400 shrink-0">
-                      {new Date(entry.timestamp).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}
+                      {new Date(entry.timestamp).toLocaleString(language === 'hi' ? 'hi-IN' : 'en-IN', { dateStyle: 'short', timeStyle: 'short' })}
                     </span>
                   </div>
                 ))}

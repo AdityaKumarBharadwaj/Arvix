@@ -4,18 +4,17 @@ import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
-  Clock,
-  Users,
   CheckCircle2,
   AlertCircle,
   ShieldCheck,
   Building2,
-  FileText,
   Phone,
   X
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const HallBookingPage = () => {
+  const { language, t } = useLanguage();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [bookedDatesMap, setBookedDatesMap] = useState({});
   const [hallDetails, setHallDetails] = useState(null);
@@ -57,17 +56,23 @@ const HallBookingPage = () => {
     fetchCalendar();
   }, []);
 
-  // Calendar calculations
   const year = currentDate.getFullYear();
-  const month = currentDate.getMonth(); // 0-indexed
+  const month = currentDate.getMonth();
 
-  const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 is Sunday
+  const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  const monthNames = [
+  const monthNamesEn = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
+
+  const monthNamesHi = [
+    'जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून',
+    'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'
+  ];
+
+  const monthNames = language === 'hi' ? monthNamesHi : monthNamesEn;
 
   const prevMonth = () => {
     setCurrentDate(new Date(year, month - 1, 1));
@@ -109,7 +114,7 @@ const HallBookingPage = () => {
       const res = await hallService.bookHall(payload);
       if (res.success) {
         setSubmitMessage(res.message);
-        fetchCalendar(); // refresh dates
+        fetchCalendar();
       }
     } catch (err) {
       setErrorMessage(err.message || 'Failed to submit booking request.');
@@ -126,19 +131,21 @@ const HallBookingPage = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
-                Municipal Community Facilities
+                {language === 'hi' ? 'नगर निगम सामुदायिक सुविधाएं' : 'Municipal Community Facilities'}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans mt-0.5">
-                Ward 14 Community & Vivah (Marriage) Bhavan
+                {language === 'hi' ? 'वार्ड 14 सामुदायिक एवं विवाह भवन' : 'Ward 14 Community & Vivah (Marriage) Bhavan'}
               </h1>
               <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
-                Check free dates and confirmed bookings on the live calendar. Ward residents receive subsidized hall hire rates for marriages, receptions, and community ceremonies.
+                {language === 'hi'
+                  ? 'लाइव कैलेंडर पर रिक्त तिथियां एवं पूर्व-आरक्षित तिथियां देखें। वार्ड निवासियों को विवाह, रिसेप्शन व उत्सवों हेतु रियायती दर पर भवन उपलब्ध है।'
+                  : 'Check free dates and confirmed bookings on the live calendar. Ward residents receive subsidized hall hire rates for marriages, receptions, and community ceremonies.'}
               </p>
             </div>
 
             <div className="flex items-center space-x-2 text-xs font-mono">
               <span className="px-3 py-1.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold">
-                Resident Rate: ₹12,000 / Day
+                {language === 'hi' ? 'निवासी रियायती दर: ₹12,000 / दिन' : 'Resident Rate: ₹12,000 / Day'}
               </span>
             </div>
           </div>
@@ -168,7 +175,7 @@ const HallBookingPage = () => {
                   onClick={() => setCurrentDate(new Date())}
                   className="px-2.5 py-1 text-xs font-medium rounded border border-slate-300 hover:bg-slate-50"
                 >
-                  Current Month
+                  {language === 'hi' ? 'वर्तमान माह' : 'Current Month'}
                 </button>
                 <button
                   onClick={nextMonth}
@@ -183,37 +190,41 @@ const HallBookingPage = () => {
             <div className="flex flex-wrap items-center gap-4 text-xs font-medium bg-slate-50 border border-slate-200 p-2.5 rounded-md">
               <div className="flex items-center space-x-1.5">
                 <span className="w-3 h-3 rounded-sm bg-emerald-100 border border-emerald-300"></span>
-                <span className="text-slate-700">Free / Open Date (Click to Reserve)</span>
+                <span className="text-slate-700">
+                  {language === 'hi' ? 'रिक्त तिथि (आरक्षण हेतु क्लिक करें)' : 'Free / Open Date (Click to Reserve)'}
+                </span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-3 h-3 rounded-sm bg-rose-100 border border-rose-300"></span>
-                <span className="text-slate-700">Booked (Confirmed)</span>
+                <span className="text-slate-700">
+                  {language === 'hi' ? 'आरक्षित (बुक)' : 'Booked (Confirmed)'}
+                </span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <span className="w-3 h-3 rounded-sm bg-amber-100 border border-amber-300"></span>
-                <span className="text-slate-700">Under Review</span>
+                <span className="text-slate-700">
+                  {language === 'hi' ? 'प्रक्रियाधीन' : 'Under Review'}
+                </span>
               </div>
             </div>
 
             {/* Days of Week Header */}
             <div className="grid grid-cols-7 gap-1 text-center font-mono text-xs font-bold text-slate-500 py-1 border-b border-slate-100">
-              <span>SUN</span>
-              <span>MON</span>
-              <span>TUE</span>
-              <span>WED</span>
-              <span>THU</span>
-              <span>FRI</span>
-              <span>SAT</span>
+              <span>{language === 'hi' ? 'रवि' : 'SUN'}</span>
+              <span>{language === 'hi' ? 'सोम' : 'MON'}</span>
+              <span>{language === 'hi' ? 'मंगल' : 'TUE'}</span>
+              <span>{language === 'hi' ? 'बुध' : 'WED'}</span>
+              <span>{language === 'hi' ? 'गुरु' : 'THU'}</span>
+              <span>{language === 'hi' ? 'शुक्र' : 'FRI'}</span>
+              <span>{language === 'hi' ? 'शनि' : 'SAT'}</span>
             </div>
 
             {/* Calendar Days Grid */}
             <div className="grid grid-cols-7 gap-1.5">
-              {/* Blank cells for offset */}
               {Array.from({ length: firstDayOfMonth }).map((_, i) => (
                 <div key={`blank-${i}`} className="h-20 sm:h-24 bg-slate-50/50 rounded-md"></div>
               ))}
 
-              {/* Month Days */}
               {Array.from({ length: daysInMonth }).map((_, i) => {
                 const dayNum = i + 1;
                 const dateKey = formatDateKey(dayNum);
@@ -247,25 +258,25 @@ const HallBookingPage = () => {
                       </span>
                       {cellDate.getTime() === today.getTime() && (
                         <span className="text-[9px] font-bold px-1 rounded bg-slate-900 text-white font-mono">
-                          TODAY
+                          {language === 'hi' ? 'आज' : 'TODAY'}
                         </span>
                       )}
                     </div>
 
                     <div className="text-[10px] leading-tight">
                       {isPast ? (
-                        <span className="text-slate-400">Past</span>
+                        <span className="text-slate-400">{language === 'hi' ? 'व्यतीत' : 'Past'}</span>
                       ) : isBooked ? (
                         <div className="font-bold text-rose-800 bg-rose-100 px-1 py-0.5 rounded truncate">
-                          {bookingInfo.eventType || 'Booked'}
+                          {bookingInfo.eventType || (language === 'hi' ? 'आरक्षित' : 'Booked')}
                         </div>
                       ) : isPending ? (
                         <div className="font-semibold text-amber-800 bg-amber-100 px-1 py-0.5 rounded truncate">
-                          Inquiry Underway
+                          {language === 'hi' ? 'समीक्षाधीन' : 'Inquiry'}
                         </div>
                       ) : (
                         <div className="font-semibold text-emerald-800 bg-emerald-100/80 px-1 py-0.5 rounded text-center">
-                          FREE
+                          {language === 'hi' ? 'रिक्त' : 'FREE'}
                         </div>
                       )}
                     </div>
@@ -275,44 +286,49 @@ const HallBookingPage = () => {
             </div>
 
             <p className="text-[11px] text-slate-500 pt-2 text-center">
-              💡 Click on any green <strong className="text-emerald-700">FREE</strong> date cell to open the slot reservation request form.
+              💡 {language === 'hi'
+                ? 'किसी भी हरे रंग की '
+                : 'Click on any green '}
+              <strong className="text-emerald-700">{language === 'hi' ? 'रिक्त तिथि' : 'FREE date'}</strong>
+              {language === 'hi'
+                ? ' पर क्लिक करके आरक्षण फॉर्म भरें।'
+                : ' cell to open the slot reservation request form.'}
             </p>
           </div>
 
-          {/* Right Column: Amenities, Rules & Tariff (4 cols) */}
+          {/* Right Column: Amenities, Rules & Tariff */}
           <div className="lg:col-span-4 space-y-5">
-            {/* Hall Amenities Card */}
             <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-xs space-y-4">
               <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                 <Building2 className="w-5 h-5 text-slate-800" />
                 <h3 className="font-bold text-sm text-slate-900 font-sans">
-                  Facility Specifications
+                  {language === 'hi' ? 'भवन की विशेषताएं एवं सुविधाएं' : 'Facility Specifications'}
                 </h3>
               </div>
 
               <div className="space-y-2 text-xs text-slate-600">
                 <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span>Main Auditorium:</span>
-                  <strong className="text-slate-900">850 Floating Guests</strong>
+                  <span>{language === 'hi' ? 'मुख्य वातानुकूलित सभागार:' : 'Main Auditorium:'}</span>
+                  <strong className="text-slate-900">850 {language === 'hi' ? 'अतिथि' : 'Guests'}</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span>Dining Banquet:</span>
-                  <strong className="text-slate-900">350 Seating Guests</strong>
+                  <span>{language === 'hi' ? 'भोजन कक्ष (डाइनिंग हॉल):' : 'Dining Banquet:'}</span>
+                  <strong className="text-slate-900">350 {language === 'hi' ? 'सीट' : 'Seating'}</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span>Air Conditioning:</span>
+                  <span>{language === 'hi' ? 'एयर कंडीशनिंग:' : 'Air Conditioning:'}</span>
                   <strong className="text-emerald-700">Central HVAC Plant</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span>Power Backup:</span>
+                  <span>{language === 'hi' ? 'बिजली बैकअप:' : 'Power Backup:'}</span>
                   <strong className="text-slate-900">100% DG + Solar Gen</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span>Parking Yard:</span>
-                  <strong className="text-slate-900">120 Cars + 250 Bikes</strong>
+                  <span>{language === 'hi' ? 'पार्किंग क्षमता:' : 'Parking Yard:'}</span>
+                  <strong className="text-slate-900">120 {language === 'hi' ? 'कार' : 'Cars'} + 250 {language === 'hi' ? 'बाइक' : 'Bikes'}</strong>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span>Green Rooms:</span>
+                  <span>{language === 'hi' ? 'वर-वधू ग्रीन रूम:' : 'Green Rooms:'}</span>
                   <strong className="text-slate-900">2 Deluxe AC Suites</strong>
                 </div>
               </div>
@@ -322,49 +338,53 @@ const HallBookingPage = () => {
             <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-xs space-y-3">
               <h3 className="font-bold text-xs uppercase tracking-wider font-mono text-slate-700 flex items-center">
                 <ShieldCheck className="w-4 h-4 mr-1 text-slate-800" />
-                Tariff & Booking Policy
+                {language === 'hi' ? 'शुल्क एवं आरक्षण नियम' : 'Tariff & Booking Policy'}
               </h3>
 
               <div className="space-y-2 text-xs text-slate-600">
                 <div className="p-2.5 bg-slate-50 border border-slate-200 rounded text-slate-800">
-                  <div className="font-bold text-slate-900">Ward 14 Resident Subsidized Hire:</div>
-                  <div className="font-mono text-sm font-extrabold text-emerald-700">₹12,000 / Day (24 Hrs)</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5">Includes cleaning, electricity allowance & security.</div>
+                  <div className="font-bold text-slate-900">
+                    {language === 'hi' ? 'वार्ड निवासी रियायती किराया:' : 'Ward 14 Resident Subsidized Hire:'}
+                  </div>
+                  <div className="font-mono text-sm font-extrabold text-emerald-700">
+                    ₹12,000 / {language === 'hi' ? 'दिन (24 घंटे)' : 'Day (24 Hrs)'}
+                  </div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">
+                    {language === 'hi' ? 'सफाई, बिजली व सुरक्षा गार्ड शुल्क सम्मिलित।' : 'Includes cleaning, electricity allowance & security.'}
+                  </div>
                 </div>
 
                 <div className="text-[11px] text-slate-500 space-y-1 pt-1">
-                  <p>• Refundable Security Deposit: ₹5,000.</p>
-                  <p>• Ward 14 residency verification (Aadhaar / Voter ID) mandatory.</p>
-                  <p>• Music and loudspeakers permitted until 10:00 PM per city noise regulations.</p>
+                  <p>• {language === 'hi' ? 'सुरक्षा धरोहर राशि: ₹5,000 (वापसी योग्य)।' : 'Refundable Security Deposit: ₹5,000.'}</p>
+                  <p>• {language === 'hi' ? 'वार्ड 14 का निवास प्रमाण (आधार / वोटर कार्ड) अनिवार्य।' : 'Ward 14 residency verification mandatory.'}</p>
+                  <p>• {language === 'hi' ? 'ध्वनि विस्तारक यंत्र रात्रि 10:00 बजे तक ही मान्य।' : 'Loudspeakers permitted until 10:00 PM.'}</p>
                 </div>
               </div>
             </div>
 
-            {/* Ward Office Contact */}
+            {/* Caretaker Contact */}
             <div className="bg-slate-900 text-slate-200 rounded-lg p-4 text-xs space-y-1.5 border border-slate-800">
               <div className="font-bold text-white flex items-center space-x-1.5">
                 <Phone className="w-3.5 h-3.5 text-amber-400" />
-                <span>Hall Booking Caretaker Desk:</span>
+                <span>{language === 'hi' ? 'विवाह भवन व्यवस्थापक डेस्क:' : 'Hall Booking Caretaker Desk:'}</span>
               </div>
-              <p className="font-mono text-slate-300">Shri Anil Kumar (Supervisor): +91 98112-90901</p>
-              <p className="text-[10px] text-slate-400">Desk timings: Mon–Sat 9:30 AM – 5:00 PM</p>
+              <p className="font-mono text-slate-300">Shri Anil Kumar: +91 98112-90901</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Booking Inquiry Modal */}
+      {/* Booking Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
           <div className="bg-white rounded-lg border border-slate-300 w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in">
-            {/* Modal Header */}
             <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
               <div>
                 <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-emerald-500 text-slate-950">
-                  Selected Date: {selectedDateStr}
+                  {language === 'hi' ? 'चयनित तिथि:' : 'Selected Date:'} {selectedDateStr}
                 </span>
                 <h3 className="text-base font-bold text-white mt-1 font-sans">
-                  Reserve Ward 14 Community Vivah Bhavan
+                  {language === 'hi' ? 'विवाह भवन आरक्षण आवेदन' : 'Reserve Ward 14 Community Vivah Bhavan'}
                 </h3>
               </div>
               <button
@@ -375,14 +395,13 @@ const HallBookingPage = () => {
               </button>
             </div>
 
-            {/* Modal Body */}
             {submitMessage ? (
               <div className="p-6 text-center space-y-4">
                 <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h4 className="text-base font-bold text-slate-900">
-                  Booking Request Submitted
+                  {language === 'hi' ? 'आरक्षण अनुरोध प्राप्त हुआ' : 'Booking Request Submitted'}
                 </h4>
                 <p className="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
                   {submitMessage}
@@ -391,7 +410,7 @@ const HallBookingPage = () => {
                   onClick={() => setIsModalOpen(false)}
                   className="civic-btn-primary text-xs px-5 py-2"
                 >
-                  Close Window
+                  {language === 'hi' ? 'खिड़की बंद करें' : 'Close Window'}
                 </button>
               </div>
             ) : (
@@ -406,7 +425,7 @@ const HallBookingPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      Applicant Full Name *
+                      {language === 'hi' ? 'आवेदक का पूरा नाम *' : 'Applicant Full Name *'}
                     </label>
                     <input
                       type="text"
@@ -422,7 +441,7 @@ const HallBookingPage = () => {
 
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      Contact Mobile *
+                      {language === 'hi' ? 'मोबाइल नंबर *' : 'Contact Mobile *'}
                     </label>
                     <input
                       type="tel"
@@ -440,7 +459,7 @@ const HallBookingPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      Function / Event Type *
+                      {language === 'hi' ? 'समारोह / कार्यक्रम का प्रकार *' : 'Function / Event Type *'}
                     </label>
                     <select
                       value={bookingFormData.eventType}
@@ -449,18 +468,18 @@ const HallBookingPage = () => {
                       }
                       className="civic-input"
                     >
-                      <option value="Marriage">Marriage (Vivah)</option>
-                      <option value="Reception">Wedding Reception</option>
-                      <option value="Engagement">Engagement (Sagai)</option>
-                      <option value="Birthday / Anniversary">Birthday / Anniversary</option>
-                      <option value="Community Meeting">Community / RWA Sabha</option>
-                      <option value="Other">Other Community Function</option>
+                      <option value="Marriage">{language === 'hi' ? 'विवाह (शादी)' : 'Marriage'}</option>
+                      <option value="Reception">{language === 'hi' ? 'रिसेप्शन' : 'Reception'}</option>
+                      <option value="Engagement">{language === 'hi' ? 'सगाई / रिंग सेरेमनी' : 'Engagement'}</option>
+                      <option value="Birthday / Anniversary">{language === 'hi' ? 'जन्मदिन / वर्षगांठ' : 'Birthday / Anniversary'}</option>
+                      <option value="Community Meeting">{language === 'hi' ? 'सामुदायिक / आरडब्ल्यूए सभा' : 'Community / RWA Sabha'}</option>
+                      <option value="Other">{language === 'hi' ? 'अन्य सामाजिक समारोह' : 'Other'}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      Expected Guest Count *
+                      {language === 'hi' ? 'अनुमानित अतिथियों की संख्या *' : 'Expected Guest Count *'}
                     </label>
                     <input
                       type="number"
@@ -478,7 +497,7 @@ const HallBookingPage = () => {
 
                 <div>
                   <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                    Ward 14 Residential Address *
+                    {language === 'hi' ? 'वार्ड संख्या 14 का निवास पता *' : 'Ward 14 Residential Address *'}
                   </label>
                   <input
                     type="text"
@@ -495,7 +514,7 @@ const HallBookingPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      Resident ID Proof Type *
+                      {language === 'hi' ? 'पहचान प्रमाण प्रकार *' : 'Resident ID Proof Type *'}
                     </label>
                     <select
                       value={bookingFormData.idProofType}
@@ -504,15 +523,15 @@ const HallBookingPage = () => {
                       }
                       className="civic-input"
                     >
-                      <option value="Aadhaar Card">Aadhaar Card</option>
-                      <option value="Voter ID">Voter ID Card</option>
-                      <option value="Ration Card">Ration Card</option>
+                      <option value="Aadhaar Card">{language === 'hi' ? 'आधार कार्ड' : 'Aadhaar Card'}</option>
+                      <option value="Voter ID">{language === 'hi' ? 'मतदाता पहचान पत्र (Voter ID)' : 'Voter ID'}</option>
+                      <option value="Ration Card">{language === 'hi' ? 'राशन कार्ड' : 'Ration Card'}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-[11px] font-medium text-slate-700 mb-1">
-                      ID Number *
+                      {language === 'hi' ? 'आईडी क्रमांक *' : 'ID Number *'}
                     </label>
                     <input
                       type="text"
@@ -533,14 +552,16 @@ const HallBookingPage = () => {
                     onClick={() => setIsModalOpen(false)}
                     className="civic-btn-secondary text-xs px-4 py-2"
                   >
-                    Cancel
+                    {language === 'hi' ? 'रद्द करें' : 'Cancel'}
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
                     className="civic-btn-primary text-xs px-5 py-2 font-bold"
                   >
-                    {submitting ? 'Submitting...' : 'Confirm Reservation Request'}
+                    {submitting
+                      ? (language === 'hi' ? 'जमा हो रहा है...' : 'Submitting...')
+                      : (language === 'hi' ? 'आरक्षण अनुरोध सबमिट करें' : 'Confirm Reservation Request')}
                   </button>
                 </div>
               </form>

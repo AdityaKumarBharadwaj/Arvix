@@ -8,15 +8,14 @@ import {
   Phone,
   User,
   ShieldCheck,
-  CheckCircle2,
   Calendar,
-  AlertCircle,
-  Search,
-  FileText
+  Search
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const MedicineAndRationPage = () => {
-  const [activeTab, setActiveTab] = useState('medicine'); // 'medicine' or 'ration'
+  const { language, t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('medicine');
   const [medicineData, setMedicineData] = useState(null);
   const [rationData, setRationData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,19 +55,23 @@ const MedicineAndRationPage = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
-                Public Health & Food Security Services
+                {language === 'hi' ? 'सार्वजनिक स्वास्थ्य एवं खाद्य सुरक्षा सेवाएं' : 'Public Health & Food Security Services'}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans mt-0.5">
-                Free Medicine & Free Ration Scheme Timetable
+                {language === 'hi'
+                  ? 'निःशुल्क दवा एवं निःशुल्क राशन वितरण समय-सारणी'
+                  : 'Free Medicine & Free Ration Scheme Timetable'}
               </h1>
               <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
-                Official distribution hours, doctor availability, free generic medicine inventory, and Fair Price Shop (FPS) foodgrain token schedules for Ward No. 14.
+                {language === 'hi'
+                  ? 'वार्ड 14 के लिए आधिकारिक वितरण समय, डॉक्टर उपलब्धता, आवश्यक जेनेरिक दवा सूची एवं सरकारी उचित दर राशन दुकान (FPS) की टोकन समय-सारणी।'
+                  : 'Official distribution hours, doctor availability, free generic medicine inventory, and Fair Price Shop (FPS) foodgrain token schedules for Ward No. 14.'}
               </p>
             </div>
 
             <div className="flex items-center space-x-2 text-xs">
               <span className="px-3 py-1.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold font-mono">
-                100% Free Public Entitlements
+                {language === 'hi' ? '100% निःशुल्क सार्वजनिक सेवाएं' : '100% Free Public Entitlements'}
               </span>
             </div>
           </div>
@@ -84,7 +87,7 @@ const MedicineAndRationPage = () => {
               }`}
             >
               <Pill className={`w-3.5 h-3.5 ${activeTab === 'medicine' ? 'text-amber-400' : 'text-slate-500'}`} />
-              <span>Free Medicine & Primary Health Center (PHC)</span>
+              <span>{t('medTab')}</span>
             </button>
             <button
               onClick={() => setActiveTab('ration')}
@@ -95,7 +98,7 @@ const MedicineAndRationPage = () => {
               }`}
             >
               <ShoppingBag className={`w-3.5 h-3.5 ${activeTab === 'ration' ? 'text-amber-400' : 'text-slate-500'}`} />
-              <span>Free Ration Scheme & Fair Price Shop (FPS)</span>
+              <span>{t('rationTab')}</span>
             </button>
           </div>
         </div>
@@ -103,13 +106,12 @@ const MedicineAndRationPage = () => {
         {/* ================= SECTION 1: MEDICINE SCHEDULE ================= */}
         {activeTab === 'medicine' && medicineData && (
           <div className="space-y-8">
-            {/* Facility & Doctor Info Card */}
             <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 space-y-2">
                   <div className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Government Authorized Urban Dispensary</span>
+                    <span>{language === 'hi' ? 'शासन अधिकृत शहरी प्राथमिक स्वास्थ्य केंद्र' : 'Government Authorized Urban Dispensary'}</span>
                   </div>
                   <h2 className="text-xl font-bold text-slate-900 font-sans">
                     {medicineData.facilityName}
@@ -121,21 +123,22 @@ const MedicineAndRationPage = () => {
                   <p className="text-xs text-slate-600 flex items-center space-x-1">
                     <User className="w-4 h-4 text-slate-400 shrink-0" />
                     <span>
-                      <strong>Chief Medical Officer:</strong> {medicineData.medicalOfficer}
+                      <strong>{language === 'hi' ? 'प्रभारी चिकित्सा अधिकारी:' : 'Chief Medical Officer:'}</strong> {medicineData.medicalOfficer}
                     </span>
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-50 border border-slate-200 rounded-md text-xs space-y-2 self-center">
                   <div className="font-bold text-slate-800 uppercase tracking-wider font-mono text-[11px]">
-                    Emergency Dispensary Desk
+                    {language === 'hi' ? 'आपातकालीन औषधालय फोन' : 'Emergency Dispensary Desk'}
                   </div>
                   <div className="flex items-center space-x-1.5 font-mono text-slate-900 font-bold">
                     <Phone className="w-3.5 h-3.5 text-amber-600" />
                     <span>{medicineData.contactPhone}</span>
                   </div>
                   <div className="text-[11px] text-slate-500">
-                    Free ambulance transfer to Civil Hospital: <strong>Dial 102</strong>
+                    {language === 'hi' ? 'सरकारी एम्बुलेंस सेवा: ' : 'Free ambulance: '}
+                    <strong>102 / 108</strong>
                   </div>
                 </div>
               </div>
@@ -146,7 +149,7 @@ const MedicineAndRationPage = () => {
               <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                 <Clock className="w-5 h-5 text-slate-900" />
                 <h3 className="font-bold text-base text-slate-900 font-sans">
-                  Weekly Operating Sessions & Distribution Timings
+                  {t('operatingHours')}
                 </h3>
               </div>
 
@@ -154,9 +157,15 @@ const MedicineAndRationPage = () => {
                 <table className="w-full text-left text-xs border border-slate-200">
                   <thead className="bg-slate-100 font-mono text-slate-700">
                     <tr>
-                      <th className="p-3 border-b border-slate-200 font-bold">Session & Days</th>
-                      <th className="p-3 border-b border-slate-200 font-bold">Timings</th>
-                      <th className="p-3 border-b border-slate-200 font-bold">Services & Dispensing</th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'सत्र एवं दिन' : 'Session & Days'}
+                      </th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'समय' : 'Timings'}
+                      </th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'उपलब्ध सेवाएं एवं दवा वितरण' : 'Services & Dispensing'}
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -173,7 +182,7 @@ const MedicineAndRationPage = () => {
 
               <div className="bg-amber-50/70 border border-amber-200 p-3 rounded-md text-xs text-amber-900 space-y-1">
                 <div className="font-bold text-[11px] uppercase tracking-wider font-mono">
-                  General Instructions for Residents:
+                  {language === 'hi' ? 'नागरिकों हेतु आवश्यक दिशा-निर्देश:' : 'General Instructions for Residents:'}
                 </div>
                 {medicineData.guidelines.map((g, idx) => (
                   <p key={idx} className="text-[11px]">• {g}</p>
@@ -181,13 +190,13 @@ const MedicineAndRationPage = () => {
               </div>
             </div>
 
-            {/* Searchable Free Medicine Catalog */}
+            {/* Free Medicine Catalog */}
             <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                 <div className="flex items-center space-x-2">
                   <Pill className="w-5 h-5 text-rose-500" />
                   <h3 className="font-bold text-base text-slate-900 font-sans">
-                    Essential Medicines Stock (Provided 100% Free of Charge)
+                    {t('essentialMeds')}
                   </h3>
                 </div>
 
@@ -197,7 +206,7 @@ const MedicineAndRationPage = () => {
                     type="text"
                     value={medicineSearch}
                     onChange={(e) => setMedicineSearch(e.target.value)}
-                    placeholder="Search medicine name..."
+                    placeholder={language === 'hi' ? 'दवा का नाम खोजें...' : 'Search medicine name...'}
                     className="civic-input pl-8 py-1.5 text-xs"
                   />
                 </div>
@@ -207,10 +216,18 @@ const MedicineAndRationPage = () => {
                 <table className="w-full text-left text-xs border border-slate-200">
                   <thead className="bg-slate-100 font-mono text-slate-700">
                     <tr>
-                      <th className="p-2.5 border-b border-slate-200 font-bold">Medicine Name & Formulation</th>
-                      <th className="p-2.5 border-b border-slate-200 font-bold">Therapeutic Category</th>
-                      <th className="p-2.5 border-b border-slate-200 font-bold">Stock Status</th>
-                      <th className="p-2.5 border-b border-slate-200 font-bold">Purpose / Notes</th>
+                      <th className="p-2.5 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'दवा का नाम' : 'Medicine Name'}
+                      </th>
+                      <th className="p-2.5 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'वर्ग / श्रेणी' : 'Therapeutic Category'}
+                      </th>
+                      <th className="p-2.5 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'स्टॉक स्थिति' : 'Stock Status'}
+                      </th>
+                      <th className="p-2.5 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'रोग निवारण / उपयोग' : 'Purpose / Notes'}
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -220,7 +237,7 @@ const MedicineAndRationPage = () => {
                         <td className="p-2.5 text-slate-600 font-medium">{med.category}</td>
                         <td className="p-2.5">
                           <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono">
-                            ✓ {med.stockStatus}
+                            ✓ {language === 'hi' ? 'उपलब्ध (In Stock)' : med.stockStatus}
                           </span>
                         </td>
                         <td className="p-2.5 text-slate-600 text-[11px]">{med.dosageNotes}</td>
@@ -231,13 +248,13 @@ const MedicineAndRationPage = () => {
               </div>
             </div>
 
-            {/* Upcoming Free Health Camps */}
+            {/* Health Camps */}
             {medicineData.upcomingHealthCamps && (
               <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs space-y-4">
                 <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                   <Calendar className="w-5 h-5 text-blue-600" />
                   <h3 className="font-bold text-base text-slate-900 font-sans">
-                    Upcoming Specialized Health Camps in Ward 14
+                    {language === 'hi' ? 'वार्ड 14 में आगामी विशेष निःशुल्क स्वास्थ्य शिविर' : 'Upcoming Specialized Health Camps in Ward 14'}
                   </h3>
                 </div>
 
@@ -253,7 +270,7 @@ const MedicineAndRationPage = () => {
                       <h4 className="font-bold text-sm text-slate-900">{camp.title}</h4>
                       <p className="text-xs text-slate-600">{camp.services}</p>
                       <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-200">
-                        <strong>Venue:</strong> {camp.venue} • <strong>Specialists:</strong> {camp.specialists}
+                        <strong>{language === 'hi' ? 'स्थान:' : 'Venue:'}</strong> {camp.venue} • <strong>{language === 'hi' ? 'विशेषज्ञ:' : 'Specialists:'}</strong> {camp.specialists}
                       </div>
                     </div>
                   ))}
@@ -266,13 +283,12 @@ const MedicineAndRationPage = () => {
         {/* ================= SECTION 2: RATION SCHEDULE ================= */}
         {activeTab === 'ration' && rationData && (
           <div className="space-y-8">
-            {/* FPS Details Card */}
             <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 space-y-2">
                   <div className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded border border-amber-200">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Government Food & Civil Supplies Authorized Depot</span>
+                    <span>{language === 'hi' ? 'खाद्य एवं रसद विभाग अधिकृत उचित दर राशन डिपो' : 'Government Food & Civil Supplies Authorized Depot'}</span>
                   </div>
                   <h2 className="text-xl font-bold text-slate-900 font-sans">
                     {rationData.fpsNumber}
@@ -284,67 +300,74 @@ const MedicineAndRationPage = () => {
                   <p className="text-xs text-slate-600 flex items-center space-x-1">
                     <User className="w-4 h-4 text-slate-400 shrink-0" />
                     <span>
-                      <strong>Authorized Dealer:</strong> {rationData.dealerName}
+                      <strong>{language === 'hi' ? 'अधिकृत कोटेदार / डीलर:' : 'Authorized Dealer:'}</strong> {rationData.dealerName}
                     </span>
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-50 border border-slate-200 rounded-md text-xs space-y-2 self-center">
                   <div className="font-bold text-slate-800 uppercase tracking-wider font-mono text-[11px]">
-                    Fair Price Shop Helpline
+                    {language === 'hi' ? 'राशन दुकान संपर्क' : 'Fair Price Shop Helpline'}
                   </div>
                   <div className="flex items-center space-x-1.5 font-mono text-slate-900 font-bold">
                     <Phone className="w-3.5 h-3.5 text-slate-700" />
                     <span>{rationData.contactPhone}</span>
                   </div>
                   <div className="text-[11px] text-slate-500">
-                    State Food Helpline: <strong>1967</strong> (Toll-Free)
+                    {language === 'hi' ? 'राज्य खाद्य टोल-फ्री हेल्पलाइन: ' : 'State Food Helpline: '}
+                    <strong>1967</strong>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Daily Operational Timings & Windows */}
+            {/* Daily Operational Timings */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white border border-slate-200 p-4 rounded-lg space-y-1">
                 <div className="text-[11px] font-mono uppercase text-slate-500 font-bold">
-                  Monthly Distribution Window
+                  {language === 'hi' ? 'मासिक वितरण अवधि' : 'Monthly Distribution Period'}
                 </div>
                 <div className="text-base font-extrabold text-slate-900">
-                  {rationData.monthlyDistributionPeriod}
+                  {language === 'hi' ? 'प्रत्येक माह की 1 से 20 तारीख' : rationData.monthlyDistributionPeriod}
                 </div>
-                <div className="text-xs text-slate-500">All card tiers serviced in rotation</div>
-              </div>
-
-              <div className="bg-white border border-slate-200 p-4 rounded-lg space-y-1">
-                <div className="text-[11px] font-mono uppercase text-slate-500 font-bold">
-                  Daily Working Shifts
-                </div>
-                <div className="text-sm font-bold text-slate-900 font-mono">
-                  Morning: {rationData.dailyTimings.morningShift}
-                </div>
-                <div className="text-sm font-bold text-slate-900 font-mono">
-                  Evening: {rationData.dailyTimings.eveningShift}
+                <div className="text-xs text-slate-500">
+                  {language === 'hi' ? 'सभी कार्ड श्रेणियों हेतु चरणबद्ध वितरण' : 'All card tiers serviced in rotation'}
                 </div>
               </div>
 
               <div className="bg-white border border-slate-200 p-4 rounded-lg space-y-1">
                 <div className="text-[11px] font-mono uppercase text-slate-500 font-bold">
-                  Weekly Closed Day
+                  {language === 'hi' ? 'दुकान खुलने का समय (शिफ्ट)' : 'Daily Working Shifts'}
+                </div>
+                <div className="text-sm font-bold text-slate-900 font-mono">
+                  {language === 'hi' ? 'प्रातः सत्र: ' : 'Morning: '}{rationData.dailyTimings.morningShift}
+                </div>
+                <div className="text-sm font-bold text-slate-900 font-mono">
+                  {language === 'hi' ? 'सायं सत्र: ' : 'Evening: '}{rationData.dailyTimings.eveningShift}
+                </div>
+              </div>
+
+              <div className="bg-white border border-slate-200 p-4 rounded-lg space-y-1">
+                <div className="text-[11px] font-mono uppercase text-slate-500 font-bold">
+                  {language === 'hi' ? 'साप्ताहिक बंदी' : 'Weekly Closed Day'}
                 </div>
                 <div className="text-base font-extrabold text-rose-700">
-                  {rationData.dailyTimings.weeklyOff}
+                  {language === 'hi' ? 'प्रत्येक मंगलवार (स्टॉक मिलान दिवस)' : rationData.dailyTimings.weeklyOff}
                 </div>
-                <div className="text-xs text-slate-500">Stock accounting & godown transfer</div>
+                <div className="text-xs text-slate-500">
+                  {language === 'hi' ? 'गोदाम उठान एवं ई-पॉस मिलान' : 'Stock accounting & godown transfer'}
+                </div>
               </div>
             </div>
 
-            {/* Quota Breakdown by Ration Card Tier */}
+            {/* Quota Breakdown */}
             <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs space-y-4">
               <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                 <ShoppingBag className="w-5 h-5 text-amber-600" />
                 <h3 className="font-bold text-base text-slate-900 font-sans">
-                  Monthly Foodgrain Quota Entitlements (Under PMGKAY Scheme)
+                  {language === 'hi'
+                    ? 'राशन कार्ड श्रेणीवार मासिक खाद्यान्न कोटा (PMGKAY योजना अंतर्गत)'
+                    : 'Monthly Foodgrain Quota Entitlements (Under PMGKAY Scheme)'}
                 </h3>
               </div>
 
@@ -360,7 +383,8 @@ const MedicineAndRationPage = () => {
                         {tier.quota}
                       </div>
                       <div className="text-[11px] font-semibold text-slate-700 mt-1">
-                        Fee: <span className="text-emerald-700">{tier.cost}</span>
+                        {language === 'hi' ? 'मूल्य: ' : 'Fee: '}
+                        <span className="text-emerald-700">{tier.cost}</span>
                       </div>
                     </div>
                   </div>
@@ -368,25 +392,33 @@ const MedicineAndRationPage = () => {
               </div>
             </div>
 
-            {/* Token / Card Ending Digit Schedule Table */}
+            {/* Token Schedule Table */}
             <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-5 h-5 text-slate-900" />
                   <h3 className="font-bold text-base text-slate-900 font-sans">
-                    Crowd-Free Token Schedule (By Last Digit of Ration Card)
+                    {t('tokenSchedule')}
                   </h3>
                 </div>
-                <span className="text-xs font-mono text-slate-500">Ward No. 14 Fair Price Depot</span>
+                <span className="text-xs font-mono text-slate-500">
+                  {language === 'hi' ? 'वार्ड संख्या 14 डिपो' : 'Ward No. 14 Fair Price Depot'}
+                </span>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs border border-slate-200">
                   <thead className="bg-slate-100 font-mono text-slate-700">
                     <tr>
-                      <th className="p-3 border-b border-slate-200 font-bold">Ration Card Last Digit</th>
-                      <th className="p-3 border-b border-slate-200 font-bold">Designated Distribution Days</th>
-                      <th className="p-3 border-b border-slate-200 font-bold">Available Shifts</th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'राशन कार्ड का अंतिम अंक' : 'Ration Card Last Digit'}
+                      </th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'निर्धारित वितरण तिथियां' : 'Designated Distribution Days'}
+                      </th>
+                      <th className="p-3 border-b border-slate-200 font-bold">
+                        {language === 'hi' ? 'उपलब्ध शिफ्ट' : 'Available Shifts'}
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -406,7 +438,7 @@ const MedicineAndRationPage = () => {
             <div className="bg-slate-900 text-slate-200 rounded-lg p-5 border border-slate-800 text-xs space-y-2">
               <div className="font-bold text-white uppercase tracking-wider font-mono text-[11px] flex items-center">
                 <ShieldCheck className="w-4 h-4 mr-1 text-emerald-400" />
-                <span>Mandatory Instructions for Ration Collection</span>
+                <span>{language === 'hi' ? 'राशन प्राप्त करने हेतु आवश्यक नियम' : 'Mandatory Instructions for Ration Collection'}</span>
               </div>
               <ul className="space-y-1.5 text-slate-300 list-disc list-inside text-[11px]">
                 {rationData.mandatoryInstructions.map((inst, idx) => (

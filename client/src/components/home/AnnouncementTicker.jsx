@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Megaphone, AlertTriangle, Calendar, Info, ChevronRight } from 'lucide-react';
+import { Megaphone, AlertTriangle, Calendar, Info } from 'lucide-react';
 import { announcementService } from '../../services/api';
+import { useLanguage } from '../../context/LanguageContext';
 
 const AnnouncementTicker = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -37,7 +39,7 @@ const AnnouncementTicker = () => {
       return (
         <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-600 text-white animate-pulse">
           <AlertTriangle className="w-3 h-3 mr-1" />
-          EMERGENCY ALERT
+          {language === 'hi' ? 'आपातकालीन सूचना' : 'EMERGENCY ALERT'}
         </span>
       );
     }
@@ -45,14 +47,14 @@ const AnnouncementTicker = () => {
       return (
         <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950">
           <Calendar className="w-3 h-3 mr-1" />
-          WARD FUNCTION
+          {language === 'hi' ? 'वार्ड कार्यक्रम / सभा' : 'WARD FUNCTION'}
         </span>
       );
     }
     return (
       <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-slate-200">
         <Info className="w-3 h-3 mr-1" />
-        PUBLIC NOTICE
+        {language === 'hi' ? 'सार्वजनिक सूचना' : 'PUBLIC NOTICE'}
       </span>
     );
   };
@@ -63,7 +65,7 @@ const AnnouncementTicker = () => {
         <div className="flex items-center space-x-3 w-full sm:w-auto overflow-hidden">
           <div className="flex items-center space-x-1.5 shrink-0 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
             <Megaphone className="w-4 h-4 animate-bounce" />
-            <span>Bulletin:</span>
+            <span>{t('bulletin')}</span>
           </div>
 
           <div className="flex items-center space-x-2.5 overflow-hidden text-xs">
@@ -82,7 +84,7 @@ const AnnouncementTicker = () => {
         {announcements.length > 1 && (
           <div className="flex items-center space-x-2 text-[11px] text-slate-400 shrink-0 self-end sm:self-auto">
             <span>
-              {currentIndex + 1} of {announcements.length}
+              {currentIndex + 1} / {announcements.length}
             </span>
             <div className="flex space-x-1">
               <button

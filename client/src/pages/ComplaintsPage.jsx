@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ComplaintForm from '../components/complaints/ComplaintForm';
 import ComplaintTracker from '../components/complaints/ComplaintTracker';
-import { AlertCircle, Search, ShieldCheck, Clock, FileCheck, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Clock, FileCheck } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const ComplaintsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get('id') ? 'track' : (searchParams.get('tab') || 'file');
   const [activeTab, setActiveTab] = useState(initialTab);
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     if (searchParams.get('id')) {
@@ -23,10 +25,12 @@ const ComplaintsPage = () => {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
-                Ward No. 14 Grievance Redressal
+                {language === 'hi' ? 'वार्ड संख्या 14 शिकायत निवारण' : 'Ward No. 14 Grievance Redressal'}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans mt-0.5">
-                Citizen Grievance & Public Works Redressal Portal
+                {language === 'hi'
+                  ? 'नागरिक शिकायत एवं लोक निर्माण निवारण पोर्टल'
+                  : 'Citizen Grievance & Public Works Redressal Portal'}
               </h1>
             </div>
 
@@ -34,7 +38,7 @@ const ComplaintsPage = () => {
             <div className="flex items-center space-x-2 text-xs">
               <span className="inline-flex items-center px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
                 <Clock className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-                Guaranteed Inspection: &lt; 48 Hrs
+                {language === 'hi' ? 'गारंटीड निरीक्षण: < 48 घंटे' : 'Guaranteed Inspection: < 48 Hrs'}
               </span>
             </div>
           </div>
@@ -49,7 +53,7 @@ const ComplaintsPage = () => {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
               }`}
             >
-              ✍️ Lodge New Grievance
+              ✍️ {language === 'hi' ? 'नई शिकायत दर्ज करें' : 'Lodge New Grievance'}
             </button>
             <button
               onClick={() => setActiveTab('track')}
@@ -59,7 +63,7 @@ const ComplaintsPage = () => {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
               }`}
             >
-              🔍 Track Status via Tracking ID
+              🔍 {language === 'hi' ? 'ट्रैकिंग आईडी से स्थिति जांचें' : 'Track Status via Tracking ID'}
             </button>
           </div>
         </div>
@@ -81,24 +85,24 @@ const ComplaintsPage = () => {
               <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-xs space-y-3">
                 <div className="flex items-center space-x-2 text-slate-900 font-bold text-xs uppercase tracking-wider font-mono">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>Ward 14 Citizen Charter SLA</span>
+                  <span>{language === 'hi' ? 'वार्ड 14 नागरिक सेवा गारंटी (SLA)' : 'Ward 14 Citizen Charter SLA'}</span>
                 </div>
                 <div className="divide-y divide-slate-100 text-xs text-slate-600">
                   <div className="py-2 flex justify-between">
-                    <span>Water Contamination / Burst:</span>
-                    <strong className="font-mono text-slate-900">Within 24 Hours</strong>
+                    <span>{language === 'hi' ? 'गंदा पानी / पाइपलाइन लीकेज:' : 'Water Contamination / Burst:'}</span>
+                    <strong className="font-mono text-slate-900">{language === 'hi' ? '24 घंटे में' : 'Within 24 Hours'}</strong>
                   </div>
                   <div className="py-2 flex justify-between">
-                    <span>Streetlight Dark Poles:</span>
-                    <strong className="font-mono text-slate-900">Within 48 Hours</strong>
+                    <span>{language === 'hi' ? 'स्ट्रीट लाइट बंद खंभे:' : 'Streetlight Dark Poles:'}</span>
+                    <strong className="font-mono text-slate-900">{language === 'hi' ? '48 घंटे में' : 'Within 48 Hours'}</strong>
                   </div>
                   <div className="py-2 flex justify-between">
-                    <span>Road Potholes & Craters:</span>
-                    <strong className="font-mono text-slate-900">Within 72 Hours</strong>
+                    <span>{language === 'hi' ? 'सड़क के गड्ढे एवं डामर:' : 'Road Potholes & Craters:'}</span>
+                    <strong className="font-mono text-slate-900">{language === 'hi' ? '72 घंटे में' : 'Within 72 Hours'}</strong>
                   </div>
                   <div className="py-2 flex justify-between">
-                    <span>Govt School Infrastructure:</span>
-                    <strong className="font-mono text-slate-900">Priority Review (48h)</strong>
+                    <span>{language === 'hi' ? 'सरकारी स्कूल बुनियादी ढांचा:' : 'Govt School Infrastructure:'}</span>
+                    <strong className="font-mono text-slate-900">{language === 'hi' ? 'प्राथमिकता (48 घंटे)' : 'Priority Review (48h)'}</strong>
                   </div>
                 </div>
               </div>
@@ -106,12 +110,22 @@ const ComplaintsPage = () => {
               <div className="bg-slate-900 text-slate-200 rounded-lg p-5 border border-slate-800 text-xs space-y-2">
                 <div className="font-bold text-white uppercase tracking-wider font-mono text-[11px] flex items-center">
                   <FileCheck className="w-4 h-4 mr-1 text-amber-400" />
-                  <span>Important Filing Instructions</span>
+                  <span>{language === 'hi' ? 'महत्वपूर्ण शिकायत निर्देश' : 'Important Filing Instructions'}</span>
                 </div>
                 <ul className="space-y-1.5 text-slate-300 list-disc list-inside text-[11px]">
-                  <li>Provide exact landmarks (e.g., opposite House #45 or near ATM).</li>
-                  <li>Clear photographs speed up on-ground inspection by 60%.</li>
-                  <li>Keep your 10-digit mobile number active for engineer contact.</li>
+                  {language === 'hi' ? (
+                    <>
+                      <li>सटीक लैंडमार्क दें (जैसे मकान नं 45 के सामने या मंदिर के पास)।</li>
+                      <li>स्पष्ट फोटो संलग्न करने से ऑन-ग्राउंड जांच 60% तेजी से होती है।</li>
+                      <li>अपना 10-अंकों का मोबाइल नंबर सक्रिय रखें ताकि इंजीनियर संपर्क कर सके।</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>Provide exact landmarks (e.g., opposite House #45 or near ATM).</li>
+                      <li>Clear photographs speed up on-ground inspection by 60%.</li>
+                      <li>Keep your 10-digit mobile number active for engineer contact.</li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>

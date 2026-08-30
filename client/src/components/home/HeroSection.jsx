@@ -9,14 +9,14 @@ import {
   CalendarCheck,
   Pill,
   ShoppingBag,
-  FileText,
-  School,
-  Droplet
+  FileText
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const HeroSection = () => {
   const [quickTrackId, setQuickTrackId] = useState('');
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleQuickTrack = (e) => {
     e.preventDefault();
@@ -42,17 +42,17 @@ const HeroSection = () => {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="font-semibold text-slate-100">Ward No. 14 Citizen Redressal Portal</span>
+              <span className="font-semibold text-slate-100">{t('heroBadge')}</span>
               <span className="text-slate-500">•</span>
-              <span className="text-slate-400">Civic Governance Desk</span>
+              <span className="text-slate-400">{t('heroSubBadge')}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-sans text-white leading-tight">
-              Direct Civic Action for Roads, Water & Schools in Your Ward
+              {t('heroHeading')}
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-              Lodge complaints directly with your elected Ward Representative, track repair progress with live updates, access government welfare schemes, inspect marriage hall open dates, and review free medicine & ration schedules.
+              {t('heroDescription')}
             </p>
 
             {/* Quick Track Input Bar */}
@@ -66,7 +66,7 @@ const HeroSection = () => {
                   type="text"
                   value={quickTrackId}
                   onChange={(e) => setQuickTrackId(e.target.value)}
-                  placeholder="Enter Tracking ID (e.g. ARV-2024-1042) or Phone"
+                  placeholder={t('trackPlaceholder')}
                   className="w-full pl-2 pr-3 py-2 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none font-mono"
                 />
               </div>
@@ -74,7 +74,7 @@ const HeroSection = () => {
                 type="submit"
                 className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center space-x-1.5 transition-colors shrink-0"
               >
-                <span>Track Status</span>
+                <span>{t('btnTrackStatus')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </form>
@@ -83,11 +83,11 @@ const HeroSection = () => {
             <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-400">
               <span className="flex items-center text-slate-300">
                 <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-400" />
-                Verified Municipal SLA: 48–72 Hrs
+                {t('slaBadge')}
               </span>
               <span className="flex items-center text-slate-300">
                 <Wrench className="w-3.5 h-3.5 mr-1 text-amber-400" />
-                Roads • Water • Schools • Lights
+                {t('servicesBadge')}
               </span>
             </div>
           </div>
@@ -103,13 +103,13 @@ const HeroSection = () => {
                 <div className="w-9 h-9 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                   <AlertCircle className="w-5 h-5" />
                 </div>
-                <h3 className="font-bold text-white text-sm">Raise Grievance</h3>
+                <h3 className="font-bold text-white text-sm">{t('cardGrievanceTitle')}</h3>
                 <p className="text-xs text-slate-400 mt-1 leading-snug">
-                  Report road potholes, dirty water supply, or govt school repair issues.
+                  {t('cardGrievanceDesc')}
                 </p>
               </div>
               <span className="text-xs font-semibold text-amber-400 inline-flex items-center mt-3 pt-2 border-t border-slate-700/60">
-                Lodge Complaint <ArrowRight className="w-3 h-3 ml-1" />
+                {t('cardGrievanceBtn')} <ArrowRight className="w-3 h-3 ml-1" />
               </span>
             </Link>
 
@@ -122,13 +122,13 @@ const HeroSection = () => {
                 <div className="w-9 h-9 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                   <FileText className="w-5 h-5" />
                 </div>
-                <h3 className="font-bold text-white text-sm">Welfare Schemes</h3>
+                <h3 className="font-bold text-white text-sm">{t('cardSchemesTitle')}</h3>
                 <p className="text-xs text-slate-400 mt-1 leading-snug">
-                  Browse schemes with eligibility, required docs & steps to apply.
+                  {t('cardSchemesDesc')}
                 </p>
               </div>
               <span className="text-xs font-semibold text-amber-400 inline-flex items-center mt-3 pt-2 border-t border-slate-700/60">
-                Explore Schemes <ArrowRight className="w-3 h-3 ml-1" />
+                {t('cardSchemesBtn')} <ArrowRight className="w-3 h-3 ml-1" />
               </span>
             </Link>
 
@@ -141,13 +141,13 @@ const HeroSection = () => {
                 <div className="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                   <CalendarCheck className="w-5 h-5" />
                 </div>
-                <h3 className="font-bold text-white text-sm">Community Vivah Bhavan</h3>
+                <h3 className="font-bold text-white text-sm">{t('cardHallTitle')}</h3>
                 <p className="text-xs text-slate-400 mt-1 leading-snug">
-                  Inspect booked & free dates on the month calendar and book slots.
+                  {t('cardHallDesc')}
                 </p>
               </div>
               <span className="text-xs font-semibold text-amber-400 inline-flex items-center mt-3 pt-2 border-t border-slate-700/60">
-                View Calendar <ArrowRight className="w-3 h-3 ml-1" />
+                {t('cardHallBtn')} <ArrowRight className="w-3 h-3 ml-1" />
               </span>
             </Link>
 
@@ -160,13 +160,13 @@ const HeroSection = () => {
                 <div className="w-9 h-9 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                   <ShoppingBag className="w-5 h-5" />
                 </div>
-                <h3 className="font-bold text-white text-sm">Medicine & Ration</h3>
+                <h3 className="font-bold text-white text-sm">{t('cardMedRationTitle')}</h3>
                 <p className="text-xs text-slate-400 mt-1 leading-snug">
-                  UPHC dispensary timings, stock list & Fair Price Ration shop dates.
+                  {t('cardMedRationDesc')}
                 </p>
               </div>
               <span className="text-xs font-semibold text-amber-400 inline-flex items-center mt-3 pt-2 border-t border-slate-700/60">
-                Check Timings <ArrowRight className="w-3 h-3 ml-1" />
+                {t('cardMedRationBtn')} <ArrowRight className="w-3 h-3 ml-1" />
               </span>
             </Link>
           </div>
@@ -176,19 +176,19 @@ const HeroSection = () => {
         <div className="mt-12 pt-6 border-t border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4 text-center md:text-left">
           <div className="border-r border-slate-800/80 pr-4">
             <div className="font-mono text-2xl font-extrabold text-emerald-400">96.4%</div>
-            <div className="text-xs text-slate-400 font-medium mt-0.5">Resolution Rate</div>
+            <div className="text-xs text-slate-400 font-medium mt-0.5">{t('statResolutionRate')}</div>
           </div>
           <div className="border-r border-slate-800/80 pr-4">
             <div className="font-mono text-2xl font-extrabold text-white">1,420+</div>
-            <div className="text-xs text-slate-400 font-medium mt-0.5">Complaints Redressed</div>
+            <div className="text-xs text-slate-400 font-medium mt-0.5">{t('statRedressed')}</div>
           </div>
           <div className="border-r border-slate-800/80 pr-4">
             <div className="font-mono text-2xl font-extrabold text-amber-400">35+</div>
-            <div className="text-xs text-slate-400 font-medium mt-0.5">Active Govt Schemes</div>
+            <div className="text-xs text-slate-400 font-medium mt-0.5">{t('statActiveSchemes')}</div>
           </div>
           <div>
             <div className="font-mono text-2xl font-extrabold text-blue-400">100% Free</div>
-            <div className="text-xs text-slate-400 font-medium mt-0.5">Generic Meds & Ration</div>
+            <div className="text-xs text-slate-400 font-medium mt-0.5">{t('statFreeBenefit')}</div>
           </div>
         </div>
       </div>

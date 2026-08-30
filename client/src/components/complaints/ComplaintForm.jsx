@@ -5,25 +5,51 @@ import {
   CheckCircle2,
   AlertCircle,
   Copy,
-  ExternalLink,
   Wrench,
   Droplet,
   School,
   Zap,
-  Trash2,
-  FileText
+  Trash2
 } from 'lucide-react';
 import { complaintService } from '../../services/api';
-
-const CATEGORIES = [
-  { id: 'Road', name: 'Roads & Potholes', icon: Wrench, desc: 'Craters, broken asphalt, damaged pavement' },
-  { id: 'Water', name: 'Water Supply', icon: Droplet, desc: 'Contamination, pipeline leakage, no water' },
-  { id: 'Government School', name: 'Govt Schools', icon: School, desc: 'Classrooms, drinking water, meals, fans' },
-  { id: 'Electricity', name: 'Streetlights', icon: Zap, desc: 'Dark poles, flickering lights, exposed wire' },
-  { id: 'Sanitation', name: 'Sanitation & Waste', icon: Trash2, desc: 'Garbage pileup, blocked drains, fumigation' },
-];
+import { useLanguage } from '../../context/LanguageContext';
 
 const ComplaintForm = ({ onComplaintCreated }) => {
+  const { language, t } = useLanguage();
+
+  const CATEGORIES = [
+    {
+      id: 'Road',
+      name: language === 'hi' ? 'सड़क एवं गड्ढे' : 'Roads & Potholes',
+      icon: Wrench,
+      desc: language === 'hi' ? 'टूटी सड़क, गड्ढे, डामर उखड़ना' : 'Craters, broken asphalt, damaged pavement'
+    },
+    {
+      id: 'Water',
+      name: language === 'hi' ? 'पेयजल आपूर्ति' : 'Water Supply',
+      icon: Droplet,
+      desc: language === 'hi' ? 'गंदा पानी, पाइपलाइन लीकेज, लो प्रेशर' : 'Contamination, pipeline leakage, no water'
+    },
+    {
+      id: 'Government School',
+      name: language === 'hi' ? 'सरकारी स्कूल' : 'Govt Schools',
+      icon: School,
+      desc: language === 'hi' ? 'कक्षाएं, पीने का पानी, पंखे, मिड-डे मील' : 'Classrooms, drinking water, meals, fans'
+    },
+    {
+      id: 'Electricity',
+      name: language === 'hi' ? 'स्ट्रीट लाइट' : 'Streetlights',
+      icon: Zap,
+      desc: language === 'hi' ? 'अंधेरे खंभे, जलती-बुझती लाइट, ढीले तार' : 'Dark poles, flickering lights, exposed wire'
+    },
+    {
+      id: 'Sanitation',
+      name: language === 'hi' ? 'सफाई व नाली' : 'Sanitation & Waste',
+      icon: Trash2,
+      desc: language === 'hi' ? 'कचरे का ढेर, बंद नाली, फॉगिंग छिड़काव' : 'Garbage pileup, blocked drains, fumigation'
+    },
+  ];
+
   const [formData, setFormData] = useState({
     citizenName: '',
     citizenPhone: '',
@@ -51,7 +77,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + selectedFiles.length > 4) {
-      setErrorMessage('Maximum 4 photographs allowed per grievance.');
+      setErrorMessage(language === 'hi' ? 'अधिकतम 4 फोटो संलग्न करने की अनुमति है।' : 'Maximum 4 photographs allowed per grievance.');
       return;
     }
 
@@ -88,7 +114,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
         if (onComplaintCreated) onComplaintCreated(res.trackingId);
       }
     } catch (err) {
-      setErrorMessage(err.message || 'Failed to submit grievance. Please try again.');
+      setErrorMessage(err.message || 'Failed to submit grievance.');
     } finally {
       setSubmitting(false);
     }
@@ -109,10 +135,12 @@ const ComplaintForm = ({ onComplaintCreated }) => {
 
         <div className="space-y-1">
           <h3 className="text-xl font-bold text-slate-900 font-sans">
-            Grievance Registered Successfully
+            {language === 'hi' ? 'शिकायत सफलतापूर्वक दर्ज हो गई है' : 'Grievance Registered Successfully'}
           </h3>
           <p className="text-xs text-slate-600 max-w-md mx-auto">
-            Your grievance has been officially registered and forwarded to the Ward Public Works & Representative Office.
+            {language === 'hi'
+              ? 'आपकी शिकायत आधिकारिक रूप से वार्ड पार्षद एवं संबंधित नगर निगम विभाग को प्रेषित कर दी गई है।'
+              : 'Your grievance has been officially registered and forwarded to the Ward Public Works & Representative Office.'}
           </p>
         </div>
 
@@ -120,7 +148,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
         <div className="max-w-md mx-auto bg-slate-50 border border-slate-300 rounded-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-left">
             <span className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-wider">
-              Permanent Tracking ID
+              {language === 'hi' ? 'स्थाई ट्रैकिंग संदर्भ क्रमांक (ID)' : 'Permanent Tracking ID'}
             </span>
             <div className="font-mono text-lg font-extrabold text-slate-950 tracking-wide">
               {successData.trackingId}
@@ -132,12 +160,14 @@ const ComplaintForm = ({ onComplaintCreated }) => {
             className="civic-btn-secondary text-xs px-3 py-1.5 font-medium shrink-0"
           >
             <Copy className="w-3.5 h-3.5 text-slate-500" />
-            <span>{copied ? 'Copied!' : 'Copy ID'}</span>
+            <span>{copied ? (language === 'hi' ? 'कॉपी हुआ!' : 'Copied!') : (language === 'hi' ? 'आईडी कॉपी करें' : 'Copy ID')}</span>
           </button>
         </div>
 
         <div className="text-xs text-slate-500 max-w-md mx-auto">
-          Please save this reference number. You will receive an SMS status update once the engineer inspects the location.
+          {language === 'hi'
+            ? 'कृपया यह संदर्भ क्रमांक सुरक्षित रखें। इंजीनियर द्वारा निरीक्षण के पश्चात आपको एसएमएस द्वारा सूचित किया जाएगा।'
+            : 'Please save this reference number. You will receive an SMS status update once the engineer inspects the location.'}
         </div>
 
         <div className="pt-2 flex flex-wrap justify-center gap-3">
@@ -160,14 +190,14 @@ const ComplaintForm = ({ onComplaintCreated }) => {
             }}
             className="civic-btn-secondary text-xs px-4 py-2"
           >
-            Lodge Another Complaint
+            {language === 'hi' ? 'अन्य शिकायत दर्ज करें' : 'Lodge Another Complaint'}
           </button>
 
           <a
             href={`/complaints/track?id=${successData.trackingId}`}
             className="civic-btn-primary text-xs px-4 py-2"
           >
-            Track Status Timeline
+            {language === 'hi' ? 'लाइव प्रगति स्थिति देखें' : 'Track Status Timeline'}
           </a>
         </div>
       </div>
@@ -178,10 +208,12 @@ const ComplaintForm = ({ onComplaintCreated }) => {
     <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 shadow-xs space-y-6">
       <div className="border-b border-slate-200 pb-4">
         <h2 className="text-lg font-bold text-slate-900 font-sans">
-          Lodge Civic Complaint (Ward No. 14)
+          {language === 'hi' ? 'वार्ड नागरिक समस्या पंजीकरण (वार्ड संख्या 14)' : 'Lodge Civic Complaint (Ward No. 14)'}
         </h2>
         <p className="text-xs text-slate-500 mt-0.5">
-          Submit issues regarding road potholes, drinking water supply, government school conditions, or streetlights.
+          {language === 'hi'
+            ? 'सड़क के गड्ढे, पेयजल समस्या, सरकारी स्कूल की स्थिति, या स्ट्रीट लाइट की शिकायत दर्ज करें।'
+            : 'Submit issues regarding road potholes, drinking water supply, government school conditions, or streetlights.'}
         </p>
       </div>
 
@@ -195,7 +227,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
       {/* 1. Category Selection Pills */}
       <div className="space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-          1. Select Problem Category <span className="text-rose-500">*</span>
+          1. {language === 'hi' ? 'समस्या का प्रकार चुनें' : 'Select Problem Category'} <span className="text-rose-500">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
           {CATEGORIES.map((cat) => {
@@ -228,37 +260,43 @@ const ComplaintForm = ({ onComplaintCreated }) => {
       {/* 2. Citizen Contact Details */}
       <div className="space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-          2. Citizen Details <span className="text-rose-500">*</span>
+          2. {language === 'hi' ? 'नागरिक का विवरण' : 'Citizen Details'} <span className="text-rose-500">*</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label className="block text-[11px] font-medium text-slate-600 mb-1">Your Full Name</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-1">
+              {language === 'hi' ? 'आपका पूरा नाम *' : 'Your Full Name *'}
+            </label>
             <input
               type="text"
               name="citizenName"
               value={formData.citizenName}
               onChange={handleInputChange}
               required
-              placeholder="e.g. Ramesh Kumar"
+              placeholder={language === 'hi' ? 'उदा. रमेश कुमार' : 'e.g. Ramesh Kumar'}
               className="civic-input"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] font-medium text-slate-600 mb-1">Mobile Phone (For SMS Tracking)</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-1">
+              {language === 'hi' ? 'मोबाइल नंबर (SMS अपडेट हेतु) *' : 'Mobile Phone (For SMS Tracking) *'}
+            </label>
             <input
               type="tel"
               name="citizenPhone"
               value={formData.citizenPhone}
               onChange={handleInputChange}
               required
-              placeholder="10-digit mobile number"
+              placeholder={language === 'hi' ? '10 अंकों का मोबाइल नंबर' : '10-digit mobile number'}
               className="civic-input font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] font-medium text-slate-600 mb-1">Email Address (Optional)</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-1">
+              {language === 'hi' ? 'ईमेल (वैकल्पिक)' : 'Email Address (Optional)'}
+            </label>
             <input
               type="email"
               name="citizenEmail"
@@ -274,13 +312,13 @@ const ComplaintForm = ({ onComplaintCreated }) => {
       {/* 3. Grievance Specifics */}
       <div className="space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-          3. Grievance Description & Location <span className="text-rose-500">*</span>
+          3. {language === 'hi' ? 'समस्या का विवरण एवं स्थान' : 'Grievance Description & Location'} <span className="text-rose-500">*</span>
         </label>
 
         <div className="space-y-3">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">
-              Complaint Subject / Short Title
+              {language === 'hi' ? 'शिकायत का विषय / मुख्य शीर्षक *' : 'Complaint Subject / Short Title *'}
             </label>
             <input
               type="text"
@@ -288,7 +326,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
               value={formData.title}
               onChange={handleInputChange}
               required
-              placeholder="e.g. Severe water pipeline crack causing mud in drinking water"
+              placeholder={language === 'hi' ? 'उदा. मुख्य गली में पाइपलाइन फटने से गंदे पानी की समस्या' : 'e.g. Severe water pipeline crack causing mud in drinking water'}
               className="civic-input"
             />
           </div>
@@ -296,7 +334,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="sm:col-span-2">
               <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                Specific Landmark / Street / House No. in Ward 14
+                {language === 'hi' ? 'सटीक स्थान / गली / मकान नं. (वार्ड 14 में) *' : 'Specific Landmark / Street / House No. in Ward 14 *'}
               </label>
               <input
                 type="text"
@@ -304,29 +342,31 @@ const ComplaintForm = ({ onComplaintCreated }) => {
                 value={formData.landmark}
                 onChange={handleInputChange}
                 required
-                placeholder="e.g. Opposite Shiv Mandir, Gali No. 3, Sector 2"
+                placeholder={language === 'hi' ? 'उदा. शिव मंदिर के सामने, गली नं. 3, सेक्टर 2' : 'e.g. Opposite Shiv Mandir, Gali No. 3, Sector 2'}
                 className="civic-input"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium text-slate-600 mb-1">Urgency Level</label>
+              <label className="block text-[11px] font-medium text-slate-600 mb-1">
+                {language === 'hi' ? 'प्राथमिकता' : 'Urgency Level'}
+              </label>
               <select
                 name="priority"
                 value={formData.priority}
                 onChange={handleInputChange}
                 className="civic-input"
               >
-                <option value="Routine">Routine (Regular maintenance)</option>
-                <option value="High">High (Affecting multiple families)</option>
-                <option value="Urgent">Urgent (Immediate health / safety hazard)</option>
+                <option value="Routine">{language === 'hi' ? 'सामान्य (नियमित रखरखाव)' : 'Routine (Regular maintenance)'}</option>
+                <option value="High">{language === 'hi' ? 'उच्च (कई परिवारों को प्रभावित)' : 'High (Affecting multiple families)'}</option>
+                <option value="Urgent">{language === 'hi' ? 'अति आवश्यक (आपातकालीन)' : 'Urgent (Immediate health / safety hazard)'}</option>
               </select>
             </div>
           </div>
 
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">
-              Detailed Description of the Issue
+              {language === 'hi' ? 'समस्या का विस्तृत विवरण *' : 'Detailed Description of the Issue *'}
             </label>
             <textarea
               name="description"
@@ -334,7 +374,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
               value={formData.description}
               onChange={handleInputChange}
               required
-              placeholder="Describe the issue in detail, how many days it has persisted, and how it is affecting the residents..."
+              placeholder={language === 'hi' ? 'समस्या कितने दिनों से है, इससे क्या परेशानी हो रही है विस्तार से लिखें...' : 'Describe the issue in detail, how many days it has persisted, and how it is affecting the residents...'}
               className="civic-input"
             ></textarea>
           </div>
@@ -344,14 +384,20 @@ const ComplaintForm = ({ onComplaintCreated }) => {
       {/* 4. Photo Upload */}
       <div className="space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-          4. Attach Site Photographs (Optional, up to 4 images)
+          4. {language === 'hi' ? 'घटनास्थल की फोटो संलग्न करें (वैकल्पिक, अधिकतम 4)' : 'Attach Site Photographs (Optional, up to 4 images)'}
         </label>
         <div className="border-2 border-dashed border-slate-300 rounded-lg p-5 text-center hover:bg-slate-50 transition-colors">
           <Upload className="w-6 h-6 text-slate-400 mx-auto mb-1.5" />
           <p className="text-xs text-slate-600 font-medium">
-            Drag and drop site photos here, or <label className="text-slate-900 font-bold underline cursor-pointer">browse<input type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" /></label>
+            {language === 'hi' ? 'फोटो यहाँ खींचें या ' : 'Drag and drop site photos here, or '}
+            <label className="text-slate-900 font-bold underline cursor-pointer">
+              {language === 'hi' ? 'फाइल चुनें' : 'browse'}
+              <input type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
+            </label>
           </p>
-          <p className="text-[11px] text-slate-400 mt-1">Supports JPG, PNG, WEBP up to 5MB each</p>
+          <p className="text-[11px] text-slate-400 mt-1">
+            {language === 'hi' ? 'JPG, PNG, WEBP (अधिकतम 5MB)' : 'Supports JPG, PNG, WEBP up to 5MB each'}
+          </p>
         </div>
 
         {filePreviews.length > 0 && (
@@ -374,7 +420,9 @@ const ComplaintForm = ({ onComplaintCreated }) => {
 
       <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-[11px] text-slate-500">
-          By submitting, you certify that the information provided is accurate and pertains to Ward No. 14 jurisdiction.
+          {language === 'hi'
+            ? 'सबमिट करके, आप प्रमाणित करते हैं कि दी गई जानकारी सत्य है और वार्ड संख्या 14 से संबंधित है।'
+            : 'By submitting, you certify that the information provided is accurate and pertains to Ward No. 14 jurisdiction.'}
         </p>
 
         <button
@@ -382,7 +430,9 @@ const ComplaintForm = ({ onComplaintCreated }) => {
           disabled={submitting}
           className="civic-btn-primary w-full sm:w-auto px-6 py-2.5 font-semibold text-xs"
         >
-          {submitting ? 'Registering Grievance...' : 'Submit Grievance to Ward Office'}
+          {submitting
+            ? (language === 'hi' ? 'शिकायत पंजीकृत हो रही है...' : 'Registering Grievance...')
+            : (language === 'hi' ? 'वार्ड कार्यालय में शिकायत दर्ज करें' : 'Submit Grievance to Ward Office')}
         </button>
       </div>
     </form>
