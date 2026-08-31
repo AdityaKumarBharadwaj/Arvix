@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Upload,
   X,
@@ -9,13 +10,18 @@ import {
   Droplet,
   School,
   Zap,
-  Trash2
+  Trash2,
+  ShieldCheck,
+  CreditCard,
+  UserCheck
 } from 'lucide-react';
 import { complaintService } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
 
 const ComplaintForm = ({ onComplaintCreated }) => {
   const { language, t } = useLanguage();
+  const { user } = useAuth();
 
   const CATEGORIES = [
     {
@@ -54,6 +60,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
     citizenName: '',
     citizenPhone: '',
     citizenEmail: '',
+    aadhaarNumber: '',
     category: 'Road',
     title: '',
     description: '',
@@ -61,6 +68,20 @@ const ComplaintForm = ({ onComplaintCreated }) => {
     priority: 'Routine',
     wardNumber: 14
   });
+
+  // Auto-fill from logged-in verified resident
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        citizenName: user.name || '',
+        citizenPhone: user.phone || '',
+        citizenEmail: user.email || '',
+        aadhaarNumber: user.maskedAadhaar || '',
+        landmark: prev.landmark || user.wardAddress || ''
+      }));
+    }
+  }, [user]);
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
@@ -96,6 +117,16 @@ const ComplaintForm = ({ onComplaintCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+
+    // Check Aadhaar if not logged in
+    if (!user && formData.aadhaarNumber) {
+      const cleanAadhaar = formData.aadhaarNumber.replace(/[^0-9]/g, '');
+      if (cleanAadhaar.length !== 12) {
+        setErrorMessage(language === 'hi' ? 'कृपया मान्य 12 अंकों का आधार कार्ड नंबर दर्ज करें।' : 'Please enter a valid 12-digit Aadhaar Card number.');
+        return;
+      }
+    }
+
     setSubmitting(true);
 
     try {
@@ -175,13 +206,14 @@ const ComplaintForm = ({ onComplaintCreated }) => {
             onClick={() => {
               setSuccessData(null);
               setFormData({
-                citizenName: '',
-                citizenPhone: '',
-                citizenEmail: '',
+                citizenName: user?.name || '',
+                citizenPhone: user?.phone || '',
+                citizenEmail: user?.email || '',
+                aadhaarNumber: user?.maskedAadhaar || '',
                 category: 'Road',
                 title: '',
                 description: '',
-                landmark: '',
+                landmark: user?.wardAddress || '',
                 priority: 'Routine',
                 wardNumber: 14
               });
@@ -206,15 +238,33 @@ const ComplaintForm = ({ onComplaintCreated }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 shadow-xs space-y-6">
-      <div className="border-b border-slate-200 pb-4">
-        <h2 className="text-lg font-bold text-slate-900 font-sans">
-          {language === 'hi' ? 'वार्ड नागरिक समस्या पंजीकरण (वार्ड संख्या 14)' : 'Lodge Civic Complaint (Ward No. 14)'}
-        </h2>
-        <p className="text-xs text-slate-500 mt-0.5">
-          {language === 'hi'
-            ? 'सड़क के गड्ढे, पेयजल समस्या, सरकारी स्कूल की स्थिति, या स्ट्रीट लाइट की शिकायत दर्ज करें।'
-            : 'Submit issues regarding road potholes, drinking water supply, government school conditions, or streetlights.'}
-        </p>
+      <div className="border-b border-slate-200 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 font-sans">
+            {language === 'hi' ? 'वार्ड नागरिक समस्या पंजीकरण (वार्ड संख्या 14)' : 'Lodge Civic Complaint (Ward No. 14)'}
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            {language === 'hi'
+              ? 'सड़क के गड्ढे, पेयजल समस्या, सरकारी स्कूल की स्थिति, या स्ट्रीट लाइट की शिकायत दर्ज करें।'
+              : 'Submit issues regarding road potholes, drinking water supply, government school conditions, or streetlights.'}
+          </p>
+        </div>
+
+        {/* Verified User Pill or Login Prompt */}
+        {user ? (
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-xs font-bold text-emerald-900">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>{language === 'hi' ? 'सत्यापित निवासी: ' : 'Verified Resident: '}{user.name}</span>
+          </div>
+        ) : (
+          <Link
+            to="/login"
+            className="inline-flex items-center space-x-1.5 px-3 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-bold text-slate-800 transition-colors"
+          >
+            <UserCheck className="w-3.5 h-3.5 text-slate-600" />
+            <span>{language === 'hi' ? 'आधार से लॉगिन करें' : 'Login with Aadhaar'}</span>
+          </Link>
+        )}
       </div>
 
       {errorMessage && (
@@ -257,10 +307,10 @@ const ComplaintForm = ({ onComplaintCreated }) => {
         </div>
       </div>
 
-      {/* 2. Citizen Contact Details */}
+      {/* 2. Citizen Contact Details & Aadhaar */}
       <div className="space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-          2. {language === 'hi' ? 'नागरिक का विवरण' : 'Citizen Details'} <span className="text-rose-500">*</span>
+          2. {language === 'hi' ? 'नागरिक आधार सत्यापन विवरण' : 'Citizen Aadhaar Verification Details'} <span className="text-rose-500">*</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
@@ -280,7 +330,7 @@ const ComplaintForm = ({ onComplaintCreated }) => {
 
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">
-              {language === 'hi' ? 'मोबाइल नंबर (SMS अपडेट हेतु) *' : 'Mobile Phone (For SMS Tracking) *'}
+              {language === 'hi' ? 'मोबाइल नंबर *' : 'Mobile Phone *'}
             </label>
             <input
               type="tel"
@@ -288,23 +338,28 @@ const ComplaintForm = ({ onComplaintCreated }) => {
               value={formData.citizenPhone}
               onChange={handleInputChange}
               required
-              placeholder={language === 'hi' ? '10 अंकों का मोबाइल नंबर' : '10-digit mobile number'}
+              placeholder={language === 'hi' ? '10 अंकों का मोबाइल' : '10-digit mobile'}
               className="civic-input font-mono"
             />
           </div>
 
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">
-              {language === 'hi' ? 'ईमेल (वैकल्पिक)' : 'Email Address (Optional)'}
+              {language === 'hi' ? 'आधार कार्ड नंबर (12 अंक) *' : 'Aadhaar Card Number (12 Digits) *'}
             </label>
-            <input
-              type="email"
-              name="citizenEmail"
-              value={formData.citizenEmail}
-              onChange={handleInputChange}
-              placeholder="e.g. name@example.com"
-              className="civic-input"
-            />
+            <div className="relative">
+              <CreditCard className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="text"
+                name="aadhaarNumber"
+                value={formData.aadhaarNumber}
+                onChange={handleInputChange}
+                required
+                readOnly={Boolean(user?.maskedAadhaar)}
+                placeholder="XXXX-XXXX-XXXX"
+                className={`civic-input pl-8 font-mono text-xs ${user?.maskedAadhaar ? 'bg-slate-50 font-bold text-emerald-800' : ''}`}
+              />
+            </div>
           </div>
         </div>
       </div>

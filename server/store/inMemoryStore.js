@@ -15,17 +15,55 @@ class InMemoryStore {
 
   async initDefaultAdmin() {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('WardRep@2024', salt);
+    const adminHashed = await bcrypt.hash('WardRep@2024', salt);
+    const citizenHashed = await bcrypt.hash('Citizen@2024', salt);
+
+    // Default Ward Representative
     this.users.push({
       _id: 'rep_admin_001',
       name: 'Shri Rajeshwar Verma',
       email: 'representative@arvix.gov.in',
       phone: '9876543210',
-      password: hashedPassword,
+      aadhaarNumber: '999988887777',
+      maskedAadhaar: 'XXXX-XXXX-7777',
+      password: adminHashed,
       role: 'representative',
       designation: 'Ward Councilor / Representative',
       wardNumber: 14,
+      isAadhaarVerified: true,
       createdAt: new Date('2024-08-01')
+    });
+
+    // Default Verified Ward Resident Citizen
+    this.users.push({
+      _id: 'cit_resident_001',
+      name: 'Ramesh Kumar Sharma',
+      email: 'ramesh.sharma@example.com',
+      phone: '9810145678',
+      aadhaarNumber: '543287651042',
+      maskedAadhaar: 'XXXX-XXXX-1042',
+      wardAddress: 'House No. 42, Gali No. 3, Sector 2, Ward 14',
+      wardSector: 'Sector 2',
+      password: citizenHashed,
+      role: 'citizen',
+      designation: 'Verified Ward 14 Resident',
+      wardNumber: 14,
+      isAadhaarVerified: true,
+      createdAt: new Date('2024-08-05')
+    });
+  }
+
+  // Find user by Email, Phone, or Aadhaar
+  findUserByIdentifier(identifier) {
+    if (!identifier) return null;
+    const clean = identifier.toString().trim().toLowerCase().replace(/[^a-z0-9@.]/g, '');
+    const cleanNumbers = identifier.toString().replace(/[^0-9]/g, '');
+
+    return this.users.find(u => {
+      const emailMatch = u.email && u.email.toLowerCase() === clean;
+      const phoneMatch = u.phone && u.phone === cleanNumbers;
+      const aadhaarMatch = u.aadhaarNumber && (u.aadhaarNumber === cleanNumbers || u.aadhaarNumber.replace(/[^0-9]/g, '') === cleanNumbers);
+      return emailMatch || phoneMatch || aadhaarMatch;
     });
   }
 

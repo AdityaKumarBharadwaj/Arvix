@@ -9,6 +9,8 @@ import SchemesPage from './pages/SchemesPage';
 import HallBookingPage from './pages/HallBookingPage';
 import MedicineAndRationPage from './pages/MedicineAndRationPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import CitizenDashboardPage from './pages/CitizenDashboardPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="/hall-booking" element={<HallBookingPage />} />
           <Route path="/medicine-and-ration" element={<MedicineAndRationPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/my-account" element={<CitizenDashboardPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>

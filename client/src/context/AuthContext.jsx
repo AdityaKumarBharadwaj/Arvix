@@ -23,8 +23,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
-    const res = await authService.login({ email, password });
+  const login = async (identifier, password) => {
+    const res = await authService.login({ identifier, password });
     if (res.success && res.user) {
       localStorage.setItem('arvix_token', res.user.token);
       localStorage.setItem('arvix_user', JSON.stringify(res.user));
@@ -34,6 +34,17 @@ export const AuthProvider = ({ children }) => {
     throw new Error(res.message || 'Login failed');
   };
 
+  const register = async (userData) => {
+    const res = await authService.register(userData);
+    if (res.success && res.user) {
+      localStorage.setItem('arvix_token', res.user.token);
+      localStorage.setItem('arvix_user', JSON.stringify(res.user));
+      setUser(res.user);
+      return res.user;
+    }
+    throw new Error(res.message || 'Registration failed');
+  };
+
   const logout = () => {
     localStorage.removeItem('arvix_token');
     localStorage.removeItem('arvix_user');
@@ -41,9 +52,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isRepresentative = user && (user.role === 'representative' || user.role === 'admin');
+  const isCitizen = user && user.role === 'citizen';
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isRepresentative }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, isRepresentative, isCitizen }}>
       {children}
     </AuthContext.Provider>
   );

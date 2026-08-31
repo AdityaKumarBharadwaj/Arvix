@@ -9,15 +9,40 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
-    unique: true,
     lowercase: true,
-    trim: true
+    trim: true,
+    sparse: true
   },
   phone: {
     type: String,
     required: [true, 'Phone number is required'],
     trim: true
+  },
+  // 12-digit Aadhaar Card Number (Essential for Anti-Spam & Ward Residency Verification)
+  aadhaarNumber: {
+    type: String,
+    trim: true,
+    sparse: true
+  },
+  maskedAadhaar: {
+    type: String,
+    trim: true
+  },
+  isAadhaarVerified: {
+    type: Boolean,
+    default: true
+  },
+  wardAddress: {
+    type: String,
+    default: 'Ward No. 14, Central Zone'
+  },
+  wardSector: {
+    type: String,
+    default: 'Sector 2'
+  },
+  voterId: {
+    type: String,
+    default: ''
   },
   password: {
     type: String,
@@ -31,7 +56,7 @@ const userSchema = new mongoose.Schema({
   },
   designation: {
     type: String,
-    default: 'Ward Resident'
+    default: 'Verified Ward 14 Resident'
   },
   wardNumber: {
     type: Number,
@@ -44,6 +69,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function (next) {
+  if (this.aadhaarNumber && !this.maskedAadhaar) {
+    const clean = this.aadhaarNumber.replace(/[^0-9]/g, '');
+    if (clean.length === 12) {
+      this.maskedAadhaar = `XXXX-XXXX-${clean.slice(-4)}`;
+    }
+  }
+
   if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);

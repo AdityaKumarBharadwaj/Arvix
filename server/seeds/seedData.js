@@ -423,12 +423,34 @@ const seedInitialData = async () => {
           name: 'Shri Rajeshwar Verma',
           email: 'representative@arvix.gov.in',
           phone: '9876543210',
+          aadhaarNumber: '999988887777',
+          maskedAadhaar: 'XXXX-XXXX-7777',
           password: 'WardRep@2024',
           role: 'representative',
           designation: 'Ward Councilor / Representative',
-          wardNumber: 14
+          wardNumber: 14,
+          isAadhaarVerified: true
         });
         console.log('[Seed] Created default Ward Representative Admin user in MongoDB.');
+      }
+
+      const residentUser = await User.findOne({ phone: '9810145678' });
+      if (!residentUser) {
+        await User.create({
+          name: 'Ramesh Kumar Sharma',
+          email: 'ramesh.sharma@example.com',
+          phone: '9810145678',
+          aadhaarNumber: '543287651042',
+          maskedAadhaar: 'XXXX-XXXX-1042',
+          wardAddress: 'House No. 42, Gali No. 3, Sector 2, Ward 14',
+          wardSector: 'Sector 2',
+          password: 'Citizen@2024',
+          role: 'citizen',
+          designation: 'Verified Ward 14 Resident',
+          wardNumber: 14,
+          isAadhaarVerified: true
+        });
+        console.log('[Seed] Created default verified Ward 14 Resident citizen in MongoDB.');
       }
     }
   } catch (error) {
