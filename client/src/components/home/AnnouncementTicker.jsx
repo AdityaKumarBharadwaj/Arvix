@@ -60,7 +60,7 @@ const AnnouncementTicker = () => {
   };
 
   return (
-    <div className="bg-slate-900 border-b border-slate-800 text-slate-100 py-2.5 px-4 sm:px-6 lg:px-8">
+    <div className="bg-black border-b border-neutral-900 text-slate-100 py-2.5 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <div className="flex items-center space-x-3 w-full sm:w-auto overflow-hidden">
           <div className="flex items-center space-x-1.5 shrink-0 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
