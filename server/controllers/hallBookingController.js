@@ -20,7 +20,7 @@ const getCalendarAvailability = async (req, res) => {
       );
     }
 
-    // Map booked dates dictionary: { '2024-09-12': { status: 'Confirmed', eventType: 'Marriage' } }
+    // Map booked dates dictionary: { '2026-11-12': { status: 'Confirmed', eventType: 'Marriage' } }
     const bookedDates = {};
     bookings.forEach(b => {
       bookedDates[b.date] = {

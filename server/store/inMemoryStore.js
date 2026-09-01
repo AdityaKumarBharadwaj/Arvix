@@ -15,8 +15,8 @@ class InMemoryStore {
 
   async initDefaultAdmin() {
     const salt = await bcrypt.genSalt(10);
-    const adminHashed = await bcrypt.hash('WardRep@2024', salt);
-    const citizenHashed = await bcrypt.hash('Citizen@2024', salt);
+    const adminHashed = await bcrypt.hash('WardRep@2026', salt);
+    const citizenHashed = await bcrypt.hash('Citizen@2026', salt);
 
     // Default Ward Representative
     this.users.push({
@@ -31,7 +31,7 @@ class InMemoryStore {
       designation: 'Ward Councilor / Representative',
       wardNumber: 14,
       isAadhaarVerified: true,
-      createdAt: new Date('2024-08-01')
+      createdAt: new Date('2026-08-01')
     });
 
     // Default Verified Ward Resident Citizen
@@ -49,7 +49,7 @@ class InMemoryStore {
       designation: 'Verified Ward 14 Resident',
       wardNumber: 14,
       isAadhaarVerified: true,
-      createdAt: new Date('2024-08-05')
+      createdAt: new Date('2026-08-05')
     });
   }
 

@@ -96,8 +96,8 @@ const ComplaintTracker = () => {
         </h2>
         <p className="text-xs text-slate-500 mb-4">
           {language === 'hi'
-            ? 'अपनी ट्रैकिंग आईडी (जैसे ARV-2024-1042) या पंजीकृत 10-अंकों का मोबाइल नंबर दर्ज करें।'
-            : 'Enter your Tracking Reference ID (e.g. ARV-2024-1042) or 10-digit registered mobile number.'}
+            ? 'अपनी ट्रैकिंग आईडी (जैसे ARV-2026-1042) या पंजीकृत 10-अंकों का मोबाइल नंबर दर्ज करें।'
+            : 'Enter your Tracking Reference ID (e.g. ARV-2026-1042) or 10-digit registered mobile number.'}
         </p>
 
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2 max-w-xl">
@@ -107,7 +107,7 @@ const ComplaintTracker = () => {
               type="text"
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
-              placeholder="e.g. ARV-2024-1042 or 9810145678"
+              placeholder="e.g. ARV-2026-1042 or 9810145678"
               className="civic-input pl-9 font-mono text-sm"
               required
             />

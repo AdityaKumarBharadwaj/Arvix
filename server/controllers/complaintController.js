@@ -2,7 +2,7 @@ const Complaint = require('../models/Complaint');
 const { inMemoryStore } = require('../store/inMemoryStore');
 const { getIsConnected } = require('../config/db');
 
-// Helper to generate official-looking tracking ID: ARV-2024-XXXX
+// Helper to generate official-looking tracking ID: ARV-2026-XXXX
 const generateTrackingId = () => {
   const year = new Date().getFullYear();
   const randomNum = Math.floor(1000 + Math.random() * 9000);

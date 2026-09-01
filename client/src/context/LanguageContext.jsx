@@ -27,7 +27,7 @@ export const translations = {
     heroSubBadge: 'Civic Governance Desk',
     heroHeading: 'Direct Civic Action for Roads, Water & Schools in Your Ward',
     heroDescription: 'Lodge complaints directly with your elected Ward Representative, track repair progress with live updates, access government welfare schemes, inspect marriage hall open dates, and review free medicine & ration schedules.',
-    trackPlaceholder: 'Enter Tracking ID (e.g. ARV-2024-1042) or Phone',
+    trackPlaceholder: 'Enter Tracking ID (e.g. ARV-2026-1042) or Phone',
     btnTrackStatus: 'Track Status',
     slaBadge: 'Verified Municipal SLA: 48–72 Hrs',
     servicesBadge: 'Roads • Water • Schools • Lights',
@@ -129,7 +129,7 @@ export const translations = {
     heroSubBadge: 'स्थानीय सुशासन डेस्क',
     heroHeading: 'वार्ड में सड़क, पेयजल एवं सरकारी स्कूलों की समस्याओं का त्वरित समाधान',
     heroDescription: 'अपने वार्ड पार्षद के समक्ष सीधे शिकायत दर्ज करें, लाइव प्रगति जांचें, सरकारी योजनाओं की संपूर्ण जानकारी व आवेदन के चरण देखें, विवाह भवन की रिक्त तिथियां जांचें और निःशुल्क दवा व राशन वितरण समय सारणी देखें।',
-    trackPlaceholder: 'ट्रैकिंग आईडी दर्ज करें (जैसे ARV-2024-1042) या फोन नंबर',
+    trackPlaceholder: 'ट्रैकिंग आईडी दर्ज करें (जैसे ARV-2026-1042) या फोन नंबर',
     btnTrackStatus: 'स्थिति जांचें',
     slaBadge: 'निगम सेवा गारंटी: 48–72 घंटे',
     servicesBadge: 'सड़कें • पेयजल • सरकारी स्कूल • स्ट्रीट लाइट',
@@ -211,7 +211,7 @@ export const translations = {
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('arvix_language') || 'hi'; // Default to Hindi for authentic civic experience
+    return localStorage.getItem('arvix_language') || 'en';
   });
 
   useEffect(() => {

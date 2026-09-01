@@ -46,13 +46,13 @@ const LoginPage = () => {
   const fillDemoCitizen = () => {
     setActiveTab('citizen');
     setIdentifier('543287651042'); // 12-digit demo Aadhaar
-    setPassword('Citizen@2024');
+    setPassword('Citizen@2026');
   };
 
   const fillDemoRepresentative = () => {
     setActiveTab('representative');
     setIdentifier('representative@arvix.gov.in');
-    setPassword('WardRep@2024');
+    setPassword('WardRep@2026');
   };
 
   return (

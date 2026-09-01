@@ -215,7 +215,7 @@ const seedBookings = [
     applicantEmail: 'suresh.sharma@example.com',
     applicantAddress: 'House 42, Gali No. 3, Sector 2, Ward 14',
     eventType: 'Marriage',
-    date: '2024-09-08',
+    date: '2026-11-12',
     guestCount: 650,
     idProofType: 'Aadhaar Card',
     idProofNumber: 'XXXX-XXXX-9821',
@@ -229,7 +229,7 @@ const seedBookings = [
     applicantEmail: 'farhan.ansari@example.com',
     applicantAddress: 'Flat 104, Green Park Apartments, Ward 14',
     eventType: 'Reception',
-    date: '2024-09-14',
+    date: '2026-11-18',
     guestCount: 450,
     idProofType: 'Aadhaar Card',
     idProofNumber: 'XXXX-XXXX-4412',
@@ -243,7 +243,7 @@ const seedBookings = [
     applicantEmail: 'rpatel@example.com',
     applicantAddress: 'Plot 88, Shanti Nagar, Ward 14',
     eventType: 'Marriage',
-    date: '2024-09-21',
+    date: '2026-11-22',
     guestCount: 800,
     idProofType: 'Voter ID',
     idProofNumber: 'DL/14/09823',
@@ -257,7 +257,7 @@ const seedBookings = [
     applicantEmail: 'anita.jha@example.com',
     applicantAddress: 'House 12, Block B, Ward 14',
     eventType: 'Engagement',
-    date: '2024-09-28',
+    date: '2026-11-28',
     guestCount: 250,
     idProofType: 'Aadhaar Card',
     idProofNumber: 'XXXX-XXXX-1102',
@@ -295,7 +295,7 @@ const seedAnnouncements = [
 
 const seedComplaints = [
   {
-    trackingId: 'ARV-2024-1042',
+    trackingId: 'ARV-2026-1042',
     citizenName: 'Manoj Kumar Sharma',
     citizenPhone: '9810145678',
     citizenEmail: 'manoj.sharma@example.com',
@@ -310,14 +310,14 @@ const seedComplaints = [
     assignedDepartment: 'Municipal Roads & Highway Dept',
     adminRemark: 'Contractor issued notice. Patchwork machinery and hot-mix asphalt scheduled for deployment tomorrow evening.',
     statusHistory: [
-      { status: 'Submitted', timestamp: new Date('2024-08-14T09:30:00'), note: 'Complaint registered by citizen with landmark photos.', updatedBy: 'Citizen Portal' },
-      { status: 'Under Review', timestamp: new Date('2024-08-15T11:00:00'), note: 'Ward junior engineer inspected the site and verified road crater dimensions.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' },
-      { status: 'In Progress', timestamp: new Date('2024-08-17T14:20:00'), note: 'Road repair work-order #RW-412 issued to municipal contractor.', updatedBy: 'Ward Representative Office' }
+      { status: 'Submitted', timestamp: new Date('2026-08-14T09:30:00'), note: 'Complaint registered by citizen with landmark photos.', updatedBy: 'Citizen Portal' },
+      { status: 'Under Review', timestamp: new Date('2026-08-15T11:00:00'), note: 'Ward junior engineer inspected the site and verified road crater dimensions.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' },
+      { status: 'In Progress', timestamp: new Date('2026-08-17T14:20:00'), note: 'Road repair work-order #RW-412 issued to municipal contractor.', updatedBy: 'Ward Representative Office' }
     ],
-    createdAt: new Date('2024-08-14T09:30:00')
+    createdAt: new Date('2026-08-14T09:30:00')
   },
   {
-    trackingId: 'ARV-2024-1088',
+    trackingId: 'ARV-2026-1088',
     citizenName: 'Pooja Verma',
     citizenPhone: '9873210987',
     citizenEmail: 'pooja.v@example.com',
@@ -332,16 +332,16 @@ const seedComplaints = [
     assignedDepartment: 'Jal Board & Sanitation',
     adminRemark: 'Underground pipeline joint leakage near sewer cross line successfully repaired and pipeline flushed with chlorine solution. Water tested clear.',
     statusHistory: [
-      { status: 'Submitted', timestamp: new Date('2024-08-12T07:15:00'), note: 'Urgent water contamination alert lodged.', updatedBy: 'Citizen Portal' },
-      { status: 'Under Review', timestamp: new Date('2024-08-12T08:45:00'), note: 'Jal board emergency testing team deployed to collect water samples.', updatedBy: 'Ward Representative Office' },
-      { status: 'In Progress', timestamp: new Date('2024-08-13T10:00:00'), note: 'Pipeline excavation commenced to fix cracked PVC line.', updatedBy: 'Jal Board Team' },
-      { status: 'Completed', timestamp: new Date('2024-08-14T16:00:00'), note: 'Pipeline sealed and clean water supply restored. Verified by RWA president.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' }
+      { status: 'Submitted', timestamp: new Date('2026-08-12T07:15:00'), note: 'Urgent water contamination alert lodged.', updatedBy: 'Citizen Portal' },
+      { status: 'Under Review', timestamp: new Date('2026-08-12T08:45:00'), note: 'Jal board emergency testing team deployed to collect water samples.', updatedBy: 'Ward Representative Office' },
+      { status: 'In Progress', timestamp: new Date('2026-08-13T10:00:00'), note: 'Pipeline excavation commenced to fix cracked PVC line.', updatedBy: 'Jal Board Team' },
+      { status: 'Completed', timestamp: new Date('2026-08-14T16:00:00'), note: 'Pipeline sealed and clean water supply restored. Verified by RWA president.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' }
     ],
-    resolvedAt: new Date('2024-08-14T16:00:00'),
-    createdAt: new Date('2024-08-12T07:15:00')
+    resolvedAt: new Date('2026-08-14T16:00:00'),
+    createdAt: new Date('2026-08-12T07:15:00')
   },
   {
-    trackingId: 'ARV-2024-1120',
+    trackingId: 'ARV-2026-1120',
     citizenName: 'Devendra Nath',
     citizenPhone: '9891002233',
     citizenEmail: 'd.nath@example.com',
@@ -356,13 +356,13 @@ const seedComplaints = [
     assignedDepartment: 'Ward Education & Anganwadi Board',
     adminRemark: 'Site inspection completed with school principal. Estimate of ₹45,000 sanctioned under Ward Discretionary Maintenance Fund.',
     statusHistory: [
-      { status: 'Submitted', timestamp: new Date('2024-08-18T10:00:00'), note: 'Citizen grievance filed regarding school infrastructure.', updatedBy: 'Citizen Portal' },
-      { status: 'Under Review', timestamp: new Date('2024-08-19T12:30:00'), note: 'Ward Councilor personal visit conducted with municipal school inspector.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' }
+      { status: 'Submitted', timestamp: new Date('2026-08-18T10:00:00'), note: 'Citizen grievance filed regarding school infrastructure.', updatedBy: 'Citizen Portal' },
+      { status: 'Under Review', timestamp: new Date('2026-08-19T12:30:00'), note: 'Ward Councilor personal visit conducted with municipal school inspector.', updatedBy: 'Shri Rajeshwar Verma (Ward Councilor)' }
     ],
-    createdAt: new Date('2024-08-18T10:00:00')
+    createdAt: new Date('2026-08-18T10:00:00')
   },
   {
-    trackingId: 'ARV-2024-1155',
+    trackingId: 'ARV-2026-1155',
     citizenName: 'Sunil Sakhuja',
     citizenPhone: '9818833445',
     citizenEmail: 'sunil.sakhuja@example.com',
@@ -377,9 +377,9 @@ const seedComplaints = [
     assignedDepartment: 'State Electricity Distribution',
     adminRemark: '',
     statusHistory: [
-      { status: 'Submitted', timestamp: new Date('2024-08-20T19:00:00'), note: 'Grievance submitted. Assigned to electrical maintenance lineman.', updatedBy: 'Citizen Portal' }
+      { status: 'Submitted', timestamp: new Date('2026-08-20T19:00:00'), note: 'Grievance submitted. Assigned to electrical maintenance lineman.', updatedBy: 'Citizen Portal' }
     ],
-    createdAt: new Date('2024-08-20T19:00:00')
+    createdAt: new Date('2026-08-20T19:00:00')
   }
 ];
 
@@ -425,7 +425,7 @@ const seedInitialData = async () => {
           phone: '9876543210',
           aadhaarNumber: '999988887777',
           maskedAadhaar: 'XXXX-XXXX-7777',
-          password: 'WardRep@2024',
+          password: 'WardRep@2026',
           role: 'representative',
           designation: 'Ward Councilor / Representative',
           wardNumber: 14,
@@ -444,7 +444,7 @@ const seedInitialData = async () => {
           maskedAadhaar: 'XXXX-XXXX-1042',
           wardAddress: 'House No. 42, Gali No. 3, Sector 2, Ward 14',
           wardSector: 'Sector 2',
-          password: 'Citizen@2024',
+          password: 'Citizen@2026',
           role: 'citizen',
           designation: 'Verified Ward 14 Resident',
           wardNumber: 14,

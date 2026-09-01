@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { inMemoryStore } = require('../store/inMemoryStore');
 const { getIsConnected } = require('../config/db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'arvix_civic_portal_super_secret_jwt_key_2024';
+const JWT_SECRET = process.env.JWT_SECRET || 'arvix_civic_portal_super_secret_jwt_key_2026';
 
 const protect = async (req, res, next) => {
   let token;

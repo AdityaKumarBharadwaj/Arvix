@@ -21,7 +21,7 @@ const announcementSchema = new mongoose.Schema({
     default: 'Normal'
   },
   eventDate: {
-    type: String, // e.g. "Sunday, 25 Aug 2024" or ISO string
+    type: String, // e.g. "Sunday, 25 Aug 2026" or ISO string
     default: ''
   },
   isPinned: {
