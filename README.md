@@ -4,7 +4,7 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ---
 
-## 📸 Visual Tour & Application Screenshots
+## Visual Tour & Application Screenshots
 
 ### 1. Civic Homepage & Deep Black Hero Section
 *Features national tricolor civic strip, live bulletin marquee, quick tracking search, 4 service action pillars, and Ward Representative desk.*
@@ -55,7 +55,7 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ---
 
-## 🏛️ Core Features
+## Core Features
 
 - **Anti-Spam Aadhaar Resident Verification**:
   - Enforces 12-digit Aadhaar Card verification to restrict access strictly to Ward No. 14 residents.
@@ -100,7 +100,7 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React 18, Vite, Tailwind CSS, Lucide React, React Router Dom, Axios
 - **Backend**: Node.js, Express.js, MongoDB / Mongoose, JWT Authentication, Multer, bcryptjs, CORS
@@ -109,7 +109,7 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v18+ recommended)
@@ -118,8 +118,8 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/arvix.git
-   cd arvix
+   git clone https://github.com/AdityaKumarBharadwaj/Arvix.git
+   cd Arvix
    ```
 2. Install all dependencies (root, backend, and frontend):
    ```bash
@@ -129,12 +129,9 @@ ARVIX is a hyper-local e-governance and community management portal built with t
    ```env
    PORT=5000
    MONGODB_URI=mongodb://127.0.0.1:27017/arvix
-<<<<<<< HEAD
    JWT_SECRET=arvix_civic_portal_super_secret_jwt_key_2026
-=======
-   JWT_SECRET=arvix_civic_portal_super_secret_jwt_key_2024
->>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
    CLIENT_URL=http://localhost:5173
+   NODE_ENV=development
    ```
 4. Start both servers concurrently:
    ```bash
@@ -145,22 +142,14 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ---
 
-## 🔐 Demo Credentials
+## Demo Credentials
 
 ### 1. Ward Representative / Admin
 - **Email**: `representative@arvix.gov.in`
-<<<<<<< HEAD
 - **Password**: `WardRep@2026`
-=======
-- **Password**: `WardRep@2024`
->>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
 - *(Or click the "Fill Demo" button on the official login tab)*
 
 ### 2. Verified Ward 14 Resident Citizen
 - **Aadhaar Number**: `543287651042`
-<<<<<<< HEAD
 - **Password**: `Citizen@2026`
-=======
-- **Password**: `Citizen@2024`
->>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
 - *(Or click the "Fill Demo" button on the citizen login tab)*
