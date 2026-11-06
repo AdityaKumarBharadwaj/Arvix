@@ -129,7 +129,11 @@ ARVIX is a hyper-local e-governance and community management portal built with t
    ```env
    PORT=5000
    MONGODB_URI=mongodb://127.0.0.1:27017/arvix
+<<<<<<< HEAD
    JWT_SECRET=arvix_civic_portal_super_secret_jwt_key_2026
+=======
+   JWT_SECRET=arvix_civic_portal_super_secret_jwt_key_2024
+>>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
    CLIENT_URL=http://localhost:5173
    ```
 4. Start both servers concurrently:
@@ -145,10 +149,18 @@ ARVIX is a hyper-local e-governance and community management portal built with t
 
 ### 1. Ward Representative / Admin
 - **Email**: `representative@arvix.gov.in`
+<<<<<<< HEAD
 - **Password**: `WardRep@2026`
+=======
+- **Password**: `WardRep@2024`
+>>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
 - *(Or click the "Fill Demo" button on the official login tab)*
 
 ### 2. Verified Ward 14 Resident Citizen
 - **Aadhaar Number**: `543287651042`
+<<<<<<< HEAD
 - **Password**: `Citizen@2026`
+=======
+- **Password**: `Citizen@2024`
+>>>>>>> 0aa1e17309a46eca254e410c4d8b542bfbd326c9
 - *(Or click the "Fill Demo" button on the citizen login tab)*
